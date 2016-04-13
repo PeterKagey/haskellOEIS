@@ -1,4 +1,4 @@
-module Helpers.EKGBuilder where
+module Scripts.Helpers.EKGBuilder where
 
 import Data.List (find)
 import Data.Maybe (fromJust)

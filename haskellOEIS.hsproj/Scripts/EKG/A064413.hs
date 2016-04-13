@@ -1,4 +1,4 @@
-module EKG.A064413 (a064413, a064413_list) where
+module Scripts.EKG.A064413 (a064413, a064413_list) where
 
 import Data.List (find)
 import Data.Maybe (fromJust)

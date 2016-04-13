@@ -1,4 +1,4 @@
-module Helpers.Primes (prime_factors, prime_powers, unique_prime_factors) where
+module Scripts.Helpers.Primes (prime_factors, prime_powers, unique_prime_factors) where
   
 import Data.List (find, group, nub, sort)
 import Data.Maybe (fromJust)
