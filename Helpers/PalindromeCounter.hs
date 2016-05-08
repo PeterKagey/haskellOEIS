@@ -1,8 +1,5 @@
 module Helpers.PalindromeCounter (countPalindromes) where
 
--- import Data.List (find, (\\))
--- import Data.Maybe (fromJust)
-
 countPalindromes :: Int -> [Integer]
 countPalindromes b = count where
   count = [0, 0] ++ remainder 1 where
