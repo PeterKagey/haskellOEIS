@@ -1,9 +1,17 @@
-module AlecSequences.A269423 (a269423, a269423_list) where
+module AlecSequences.A269423 (a269423) where
+import Helpers.AlecHelper (buildAlecSequence)
 
-a269423 :: Int -> Int
-a269423 n = a269423_list !! (n-1)
+a269423 :: Int -> Integer
+a269423 i = a269423_list !! (i - 1)
 
-a269423_list :: [Int]
-a269423_list = 1 : remaining 1 where
-  remaining k = sum matching_indices : remaining (k + 1) where
-    matching_indices = filter (\i -> (k + 1 - a269423 i) `mod` i == 0) [1..k]
+a269423_list :: [Integer]
+a269423_list = buildAlecSequence matchingIndices reducer [1]
+
+matchingIndices :: [Integer] -> [Int]
+matchingIndices list = filter f [1..n] where
+  n = length list
+  f index = ((toInteger n + 1) - a_i) `mod` toInteger(index) == 0 where
+    a_i = list !! (index - 1)
+
+reducer :: [Integer] -> Integer
+reducer seed = (foldr (+) 0 seed)
