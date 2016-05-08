@@ -6,4 +6,4 @@ main = hspec $
   describe "A065519" $
     it "correctly computes the first 20 elements" $
       take 20 (map a065519 [1..]) `shouldBe` expectedValue where
-        expectedValue = [1,2,4,6,3,9,12,8,10,5,15,18,14,7,21,24,16,20,22,11]
+        expectedValue = [0,0,1,2,-2,3,5,0,1,-5,4,6,1,-7,6,8,-1,2,3,-9]
