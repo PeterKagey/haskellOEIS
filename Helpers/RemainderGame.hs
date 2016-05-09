@@ -1,7 +1,7 @@
-module Helpers.RemainderGame (shrinkingDivisorInterations) where
+module Helpers.RemainderGame (shrinkingDivisorIterations) where
 
-shrinkingDivisorInterations :: Int -> Int -> Integer
-shrinkingDivisorInterations n k = iterationCount k 0 where
+shrinkingDivisorIterations :: Int -> Int -> Integer
+shrinkingDivisorIterations n k = iterationCount k 0 where
   iterationCount 0 i = i
   iterationCount b i = iterationCount (n `mod` b) (i + 1)
 
