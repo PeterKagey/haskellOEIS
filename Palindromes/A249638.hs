@@ -1,8 +1,8 @@
 module Palindromes.A249638 (a249638) where
-  import Helpers.PalindromeCounter (countPalindromes)
+import Helpers.PalindromeCounter (countPalindromes)
 
-  a249638 :: Int -> Integer
-  a249638 n = a249638_list !! n
+a249638 :: Int -> Integer
+a249638 n = a249638_list !! n
 
-  a249638_list :: [Integer]
-  a249638_list = countPalindromes 5
+a249638_list :: [Integer]
+a249638_list = countPalindromes 5
