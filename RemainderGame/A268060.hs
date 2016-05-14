@@ -6,4 +6,4 @@ import Data.List (find)
 
 a268060 :: Int -> Integer
 a268060 n = toInteger $ fromJust $ find f [1..n] where
-  f k = (shrinkingDivisorIterations n k) == (a268058 n)
+  f k = shrinkingDivisorIterations n k == a268058 n
