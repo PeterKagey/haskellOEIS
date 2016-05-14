@@ -1,3 +1,4 @@
+module Tests.AlecSequences.A271503Test where
 import Test.Hspec
 import AlecSequences.A271503 (a271503)
 main :: IO ()

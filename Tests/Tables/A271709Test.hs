@@ -1,3 +1,4 @@
+module Tests.Tables.A271709Test where
 import Test.Hspec
 import Tables.A271709 (a271709)
 

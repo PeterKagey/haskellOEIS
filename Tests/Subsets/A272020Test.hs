@@ -1,3 +1,4 @@
+module Tests.Subsets.A272020Test where
 import Test.Hspec
 import Subsets.A272020 (a272020)
 

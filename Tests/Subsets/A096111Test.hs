@@ -1,3 +1,4 @@
+module Tests.Subsets.A096111Test where
 import Test.Hspec
 import Subsets.A096111 (a096111)
 

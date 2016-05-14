@@ -1,3 +1,4 @@
+module Tests.PowerDivisibility.A254734Test where
 import Test.Hspec
 import PowerDivisibility.A254734 (a254734)
 

@@ -1,3 +1,4 @@
+module Tests.Palindromes.A248122Test where
 import Test.Hspec
 import Palindromes.A248122 (a248122)
 

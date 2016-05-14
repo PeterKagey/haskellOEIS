@@ -1,3 +1,4 @@
+module Tests.EKG.A169841Test where
 import Test.Hspec
 import EKG.A169841 (a169841)
 

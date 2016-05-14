@@ -1,3 +1,4 @@
+module Tests.Miscellaneous.A272761Test where
 import Test.Hspec
 import Miscellaneous.A272761 (a272761)
 

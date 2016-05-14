@@ -1,3 +1,4 @@
+module Tests.Nonpalindromes.A252699Test where
 import Test.Hspec
 import Nonpalindromes.A252699 (a252699)
 

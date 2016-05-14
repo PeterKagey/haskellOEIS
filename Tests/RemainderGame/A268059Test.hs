@@ -1,3 +1,4 @@
+module Tests.RemainderGame.A268059Test where
 import Test.Hspec
 import RemainderGame.A268059 (a268059)
 

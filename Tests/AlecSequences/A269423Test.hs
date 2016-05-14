@@ -1,3 +1,4 @@
+module Tests.AlecSequences.A269423Test where
 import Test.Hspec
 import Test.QuickCheck
 import Control.Exception (evaluate)

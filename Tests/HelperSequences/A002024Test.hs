@@ -1,3 +1,4 @@
+module Tests.HelperSequences.A002024Test where
 import Test.Hspec
 import HelperSequences.A002024 (a002024)
 

@@ -1,3 +1,4 @@
+module Tests.EKG.A169849Test where
 import Test.Hspec
 import EKG.A169849 (a169849)
 main :: IO ()
