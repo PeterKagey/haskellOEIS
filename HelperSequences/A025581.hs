@@ -3,4 +3,4 @@ import HelperSequences.A003056 (a003056)
 import HelperSequences.A002262 (a002262)
 
 a025581 :: Int -> Int
-a025581 n = (a003056 n) - a002262 n
+a025581 n = a003056 n - a002262 n
