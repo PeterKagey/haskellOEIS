@@ -15,4 +15,4 @@ matchingIndices list = filter f [1..n] where
     a_i = fromIntegral $ a269524 index
 
 reducer :: [Integer] -> Integer
-reducer seed = toInteger $ length seed
+reducer = toInteger . length

@@ -13,4 +13,4 @@ matchingIndices list = filter f [1..n] where
   f index = (a269427 index - toInteger n - 1) `mod` toInteger index == 0
 
 reducer :: [Integer] -> Integer
-reducer seed = toInteger $ length seed
+reducer = toInteger . length
