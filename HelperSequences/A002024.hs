@@ -4,8 +4,8 @@ module HelperSequences.A002024 (a002024) where
 -- floor(sqrt(2n) + 1/2).
 
 a002024 :: Int -> Int
-a002024 n = a002024List !! (n - 1)
+a002024 n = a002024_list !! (n - 1)
 
-a002024List :: [Int]
-a002024List = remaining 1 where
+a002024_list :: [Int]
+a002024_list = remaining 1 where
   remaining n = (take n $ repeat n) ++ remaining (n + 1)
