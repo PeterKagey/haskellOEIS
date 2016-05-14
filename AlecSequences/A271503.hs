@@ -6,12 +6,9 @@ a271503 :: Int -> Integer
 a271503 i = a271503_list !! (i - 1)
 
 a271503_list :: [Integer]
-a271503_list = buildAlecSequence matchingIndices reducer [1]
+a271503_list = buildAlecSequence matchingIndices product [1]
 
 matchingIndices :: [Integer] -> [Int]
 matchingIndices list = filter f [1..n] where
   n = length list
   f index = toInteger (n + 1) `mod` a271503 index == 0
-
-reducer :: [Integer] -> Integer
-reducer seed = foldr (*) 1 seed

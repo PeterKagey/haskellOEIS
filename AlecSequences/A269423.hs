@@ -5,13 +5,10 @@ a269423 :: Int -> Integer
 a269423 i = a269423_list !! (i - 1)
 
 a269423_list :: [Integer]
-a269423_list = buildAlecSequence matchingIndices reducer [1]
+a269423_list = buildAlecSequence matchingIndices sum [1]
 
 matchingIndices :: [Integer] -> [Int]
 matchingIndices list = filter f [1..n] where
   n = length list
-  f index = ((toInteger n + 1) - a_i) `mod` toInteger(index) == 0 where
+  f index = ((toInteger n + 1) - a_i) `mod` toInteger index == 0 where
     a_i = list !! (index - 1)
-
-reducer :: [Integer] -> Integer
-reducer seed = (foldr (+) 0 seed)

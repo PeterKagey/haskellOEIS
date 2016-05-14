@@ -6,4 +6,4 @@ a271468 n = a271468_list !! (n - 1)
 
 a271468_list :: [Integer]
 a271468_list = map toInteger $ filter f [1..] where
-  f i = (a271328 i) /= toInteger (i * i + 1)
+  f i = a271328 i /= toInteger (i * i + 1)
