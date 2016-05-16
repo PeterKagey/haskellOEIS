@@ -1,4 +1,5 @@
 module Coins.A047932 (a047932) where
+import Helpers.ListHelpers (concatReplicate)
 
 a047932 :: Int -> Integer
 a047932 n = a047932_list !! (n - 1)
@@ -10,4 +11,4 @@ remainder :: Int -> [Integer]
 remainder n = sideA ++ sideB ++ remainingSides ++ remainder (n + 1) where
   sideA = 2 : replicate (n + 1) 3
   sideB = 2 : replicate n 3
-  remainingSides = take (4 * n + 8) $ cycle $ 2 : replicate (n + 1) 3
+  remainingSides = concatReplicate 4 sideA
