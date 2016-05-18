@@ -2,11 +2,12 @@ module Helpers.Primes (primeFactors, primePowers, uniquePrimeFactors) where
 
 import Data.List (group, nub, sort)
 
+import Control.Arrow ((&&&))
 -- Taken from
 -- http://stackoverflow.com/questions/21276844/prime-factors-in-haskell
 -- will write my own implementation later (fingers crossed!)
 
-primeFactors :: Int -> [Int]
+primeFactors :: Integer -> [Integer]
 primeFactors n =
   case factors of
     [] -> [n]
@@ -16,8 +17,8 @@ primeFactors n =
 -- Taken from
 -- http://stackoverflow.com/questions/13517114/count-frequency-of-each-element-in-a-list
 -- will write my own implementation later (fingers crossed!)
-primePowers :: Int -> [(Int, Int)]
-primePowers = map (\x->(head x, length x)) . group . sort . primeFactors
+primePowers :: Integer -> [(Integer, Int)]
+primePowers = map (head &&& length) . group . sort . primeFactors
 
-uniquePrimeFactors :: Int -> [Int]
+uniquePrimeFactors :: Integer -> [Integer]
 uniquePrimeFactors = nub . primeFactors

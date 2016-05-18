@@ -1,10 +1,11 @@
 module Helpers.Subsets (oneIndexed, zeroIndexed) where
+import Data.Bits ((.&.), shiftR)
 
 oneIndexed :: Integer -> [Integer]
 oneIndexed n = map (1 +) (zeroIndexed n)
 
 zeroIndexed :: Integer -> [Integer]
-zeroIndexed n = count n 0 [] where
-  count 0 c accum = accum
-  count n c accum = if odd n then r (c : accum) else r accum where
-    r = count (n `div` 2) (c + 1)
+zeroIndexed n = count n 0 where
+  count 0 _ = []
+  count m c = count (m `div` 2) (c + 1) ++ take (fromIntegral $ m .&. 1) [c]
+
