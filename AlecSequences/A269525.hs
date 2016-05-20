@@ -11,5 +11,5 @@ a269525_list = buildAlecSequence matchingIndices sum [1]
 matchingIndices :: [Integer] -> [Int]
 matchingIndices list = filter f [1..n] where
   n = length list
-  f index = a032741 (n + 1) >= a032741 a_i where
+  f index = a032741 (toInteger $ n + 1) >= a032741 a_i where
     a_i = fromIntegral $ a269525 index
