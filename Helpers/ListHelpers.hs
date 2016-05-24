@@ -1,4 +1,5 @@
 module Helpers.ListHelpers (concatReplicate, reciprocalSum, runLengths, zipWithPadding) where
+import Data.List (group)
 -- concatReplicate is to replicate as concatMap is to map
 concatReplicate :: Int -> [a] -> [a]
 concatReplicate n list = take (n * length list) $ cycle list
@@ -9,9 +10,7 @@ reciprocalSum :: Integral a => [a] -> Rational
 reciprocalSum = sum . map (recip . toRational)
 
 runLengths :: Eq a => [a] -> [Int]
-runLengths [] = []
-runLengths l = h : runLengths (drop h l) where
-  h = length $ takeWhile (== head l) l
+runLengths = map length . group
 
 -- Inspired by:
 -- http://stackoverflow.com/questions/22403029/how-to-zip-lists-with-different-length
