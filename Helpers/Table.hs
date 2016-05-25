@@ -5,7 +5,7 @@ import HelperSequences.A002262 (a002262)
 n_k :: Int -> (Int, Int)
 n_k i = (a025581 i, a002262 i)
 
--- 1 <= k <= n
+-- 0 <= k <= n
 n'_k' :: Int -> (Int, Int)
-n'_k' i = (n + k + 1, k + 1) where
+n'_k' i = (n + k, k) where
   (n, k) = n_k i
