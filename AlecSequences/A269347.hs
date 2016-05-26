@@ -5,7 +5,7 @@ a269347 :: Int -> Integer
 a269347 i = a269347_list !! (i - 1)
 
 a269347_list :: [Integer]
-a269347_list = buildAlecSequence matchingIndices sum [1]
+a269347_list = buildAlecSequence matchingIndices (toInteger . sum) [1]
 
 matchingIndices :: [Integer] -> [Int]
 matchingIndices list = filter f [1..n] where

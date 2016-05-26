@@ -12,5 +12,5 @@ matchingIndices list = filter f [1..n] where
   n = length list
   f index = gcd (toInteger n + 1) (list !! (index - 1)) == 1
 
-reducer :: [Integer] -> Integer
+reducer :: [Int] -> Integer
 reducer = toInteger . length

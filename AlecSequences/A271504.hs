@@ -13,5 +13,5 @@ matchingIndices list = filter f [1..n] where
   n = length list
   f index = toInteger (n + 1) `mod` a271504 index == 0
 
-reducer :: [Integer] -> Integer
-reducer = foldr lcm 1
+reducer :: [Int] -> Integer
+reducer = toInteger . foldr lcm 1

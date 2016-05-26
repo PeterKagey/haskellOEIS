@@ -6,7 +6,7 @@ a271503 :: Int -> Integer
 a271503 i = a271503_list !! (i - 1)
 
 a271503_list :: [Integer]
-a271503_list = buildAlecSequence matchingIndices product [1]
+a271503_list = buildAlecSequence matchingIndices (toInteger . product) [1]
 
 matchingIndices :: [Integer] -> [Int]
 matchingIndices list = filter f [1..n] where

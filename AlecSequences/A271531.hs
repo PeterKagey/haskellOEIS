@@ -10,8 +10,8 @@ a271531_list = buildAlecSequence matchingIndices reducer [1]
 matchingIndices :: [Integer] -> [Int]
 matchingIndices list = filter f [1..n] where
   n = length list
-  f index = ((toInteger n + 1) - a_i) `mod` toInteger(index) == 0 where
+  f index = ((toInteger n + 1) - a_i) `mod` toInteger index == 0 where
     a_i = list !! (index - 1)
 
-reducer :: [Integer] -> Integer
-reducer seed = (foldr lcm 1 seed)
+reducer :: [Int] -> Integer
+reducer = toInteger . foldr lcm 1

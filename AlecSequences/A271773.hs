@@ -5,7 +5,7 @@ a271773 :: Int -> Integer
 a271773 i = a271773_list !! (i - 1)
 
 a271773_list :: [Integer]
-a271773_list = buildAlecSequence matchingIndices maximum [0]
+a271773_list = buildAlecSequence matchingIndices (toInteger . maximum) [0]
 
 matchingIndices :: [Integer] -> [Int]
 matchingIndices list = filter f [1..n] where
