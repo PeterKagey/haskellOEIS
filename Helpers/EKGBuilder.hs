@@ -3,7 +3,7 @@ module Helpers.EKGBuilder (buildEKG) where
 import Data.List (find, (\\))
 import Data.Maybe (fromJust)
 
-buildEKG :: [Integer] -> [Integer]
+buildEKG :: Integral a => [a] -> [a]
 buildEKG seed = ekg_list where
   ekg_list = seed ++ remaining_list (length seed) where
     remaining_list k = next_term : remaining_list (k + 1) where
