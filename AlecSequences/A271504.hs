@@ -1,17 +1,16 @@
 module AlecSequences.A271504 (a271504) where
+import Data.List (genericIndex, genericLength)
 import Helpers.AlecHelper (buildAlecSequence)
 import HelperSequences.A032741 (a032741)
 
-a271504 :: Int -> Integer
-a271504 i = a271504_list !! (i - 1)
+a271504 :: Integral a => a -> a
+a271504 i = genericIndex a271504_list (i - 1)
 
-a271504_list :: [Integer]
-a271504_list = buildAlecSequence matchingIndices reducer [1]
+a271504_list :: Integral a => [a]
+a271504_list = buildAlecSequence matchingIndices (foldr lcm 1) [1]
 
-matchingIndices :: [Integer] -> [Int]
+matchingIndices :: Integral a => [a] -> [a]
 matchingIndices list = filter f [1..n] where
-  n = length list
-  f index = toInteger (n + 1) `mod` a271504 index == 0
-
-reducer :: [Int] -> Integer
-reducer = toInteger . foldr lcm 1
+  n = genericLength list
+  f index = (n + 1) `mod` a_i == 0 where
+    a_i = genericIndex list (index - 1)

@@ -1,14 +1,14 @@
 module Helpers.Primes (primeFactors, primePowers, uniquePrimeFactors, isPrime) where
-import Data.List (group, nub, sort)
+import Data.List (genericLength, group, nub, sort)
 import Control.Arrow ((&&&))
 -- Taken from
 -- http://stackoverflow.com/questions/21276844/prime-factors-in-haskell
 -- will write my own implementation later (fingers crossed!)
 
-isPrime :: Integer -> Bool
-isPrime n = (n > 1) && 1 == length (primeFactors n)
+isPrime :: Integral a => a -> Bool
+isPrime n = (n > 1) && 1 == genericLength (primeFactors n)
 
-primeFactors :: Integer -> [Integer]
+primeFactors :: Integral a => a -> [a]
 primeFactors n =
   case factors of
     [] -> [n]

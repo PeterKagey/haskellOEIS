@@ -1,16 +1,14 @@
 module AlecSequences.A096216 (a096216) where
 import Helpers.AlecHelper (buildAlecSequence)
+import Data.List (genericIndex, genericLength)
 
-a096216 :: Int -> Integer
-a096216 n = a096216_list !! (n - 1)
+a096216 :: Integral a => a -> a
+a096216 n = genericIndex a096216_list (n - 1)
 
-a096216_list :: [Integer]
-a096216_list = buildAlecSequence matchingIndices reducer [1]
+a096216_list :: Integral a => [a]
+a096216_list = buildAlecSequence matchingIndices genericLength [1]
 
-matchingIndices :: [Integer] -> [Int]
+matchingIndices :: Integral a => [a] -> [a]
 matchingIndices list = filter f [1..n] where
-  n = length list
-  f index = gcd (toInteger n + 1) (list !! (index - 1)) == 1
-
-reducer :: [Int] -> Integer
-reducer = toInteger . length
+  n = genericLength list
+  f index = gcd (n + 1) (genericIndex list (index - 1)) == 1
