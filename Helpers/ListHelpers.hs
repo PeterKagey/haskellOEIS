@@ -1,4 +1,4 @@
-module Helpers.ListHelpers (concatReplicate, reciprocalSum, runLengths, zipWithPadding) where
+module Helpers.ListHelpers (concatReplicate, firstDifferences, reciprocalSum, runLengths, zipWithPadding) where
 import Data.List (group)
 -- concatReplicate is to replicate as concatMap is to map
 concatReplicate :: Int -> [a] -> [a]
@@ -18,3 +18,6 @@ zipWithPadding :: a -> [a] -> [a] -> [(a, a)]
 zipWithPadding pad (a:as) (b:bs) = (a, b) : zipWithPadding pad as bs
 zipWithPadding pad as     []      = zip as (repeat pad)
 zipWithPadding pad []      bs     = zip (repeat pad) bs
+
+firstDifferences :: Integral a => [a] -> [a]
+firstDifferences list = zipWith (-) (tail list) list
