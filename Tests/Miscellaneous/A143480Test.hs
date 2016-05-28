@@ -1,0 +1,10 @@
+module Tests.Miscellaneous.A143480Test where
+import Test.Hspec
+import Miscellaneous.A143480 (a143480)
+main :: IO ()
+
+main = hspec $
+  describe "A143480" $
+    it "correctly computes the first 20 elements" $
+      take 20 (map a143480 [1..]) `shouldBe` expectedValue where
+        expectedValue = [1,4,9,16,25,72,49,104,81,160,121,348,143,322,285,352,221,648,323,800]
