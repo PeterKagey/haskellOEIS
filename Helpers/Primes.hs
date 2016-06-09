@@ -6,7 +6,7 @@ import Control.Arrow ((&&&))
 -- will write my own implementation later (fingers crossed!)
 
 isPrime :: Integral a => a -> Bool
-isPrime n = (n > 1) && 1 == genericLength (primeFactors n)
+isPrime n = (n > 1) && (1 :: Integer) == genericLength (primeFactors n)
 
 primeFactors :: Integral a => a -> [a]
 primeFactors n =
