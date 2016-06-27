@@ -2,7 +2,7 @@ module HelperSequences.A000040 (a000040, a000040_list) where
 import Data.List (genericIndex)
 
 -- From Reinhard Zumkeller, Apr 07 2014 in OEIS
-a000040 :: Integer -> Integer
+a000040 :: Integral a => a -> Integer
 a000040 n = genericIndex a000040_list (n - 1)
 
 a000040_list :: [Integer]
