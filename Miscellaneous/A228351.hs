@@ -1,4 +1,4 @@
-module Miscellaneous.A228351 (a228351) where
+module Miscellaneous.A228351 (a228351, a228351_row) where
 import HelperSequences.A001511 (a001511)
 
 a228351 n = a228351_list !! (n - 1)
