@@ -4,3 +4,4 @@
 *.yaml
 *.cabal
 Sandbox
+dist

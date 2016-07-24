@@ -17,7 +17,7 @@ version = Version [0,1,0,0] []
 bindir, libdir, datadir, libexecdir, sysconfdir :: FilePath
 
 bindir     = "/Users/pkagey/.cabal/bin"
-libdir     = "/Users/pkagey/.cabal/lib/x86_64-osx-ghc-7.10.3/haskellOEIS-0.1.0.0-8I6ocRWiTqY1jOKEjsij6U"
+libdir     = "/Users/pkagey/.cabal/lib/x86_64-osx-ghc-7.10.3/haskellOEIS-0.1.0.0-2ji8kMM1fl99OBAMDVgT0M"
 datadir    = "/Users/pkagey/.cabal/share/x86_64-osx-ghc-7.10.3/haskellOEIS-0.1.0.0"
 libexecdir = "/Users/pkagey/.cabal/libexec"
 sysconfdir = "/Users/pkagey/.cabal/etc"
