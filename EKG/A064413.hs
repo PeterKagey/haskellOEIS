@@ -1,4 +1,4 @@
-module EKG.A064413 (a064413) where
+module EKG.A064413 (a064413, a064413_list) where
 import Data.List (genericIndex)
 import Helpers.EKGBuilder (buildEKG)
 
