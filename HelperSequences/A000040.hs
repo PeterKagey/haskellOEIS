@@ -13,6 +13,6 @@ a000040_list = base ++ larger where
    _ : p : more = roll $ makeWheels base
    roll (Wheel n rs) = [n * k + r | k <- [0..], r <- rs]
    makeWheels = foldl nextSize (Wheel 1 [1])
-   nextSize (Wheel size bs) q = Wheel (size * q)
+   nextSize (Wheel size bs) p = Wheel (size * p)
        [r | k <- [0..p-1], b <- bs, let r = size*k+b, mod r p > 0]
 data Wheel = Wheel Integer [Integer]
