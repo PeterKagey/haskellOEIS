@@ -1,12 +1,14 @@
 module Helpers.Primes (primeFactors, primePowers, uniquePrimeFactors, isPrime) where
-import Data.List (genericLength, group, nub, sort)
+import Data.List (group, nub, sort, find)
 import Control.Arrow ((&&&))
+import HelperSequences.A000040 (a000040_list)
 -- Taken from
 -- http://stackoverflow.com/questions/21276844/prime-factors-in-haskell
 -- will write my own implementation later (fingers crossed!)
 
 isPrime :: Integral a => a -> Bool
-isPrime n = (n > 1) && (1 :: Integer) == genericLength (primeFactors n)
+isPrime n = Just n' == find (>= n') a000040_list where
+  n' = fromIntegral n
 
 primeFactors :: Integral a => a -> [a]
 primeFactors n =
