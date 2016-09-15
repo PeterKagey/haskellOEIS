@@ -1,4 +1,4 @@
-module Graham.A006255 (iMatrix) where
+module Graham.A006255 (iMatrix, a006255) where
 import Graham.A248663 (a248663)
 import Data.Matrix (Matrix, matrix)
 import Data.Bits
@@ -9,6 +9,8 @@ import Data.Bits
 -- A006255 4 = 4  via [4]
 -- A006255 5 = 10 via [5, 8, 10]
 -- A006255 6 = 12 via [6, 8, 12]
+
+a006255 n = n
 
 -- Initial Boolean matrix for A006255
 iMatrix :: Integer -> Matrix Bool
