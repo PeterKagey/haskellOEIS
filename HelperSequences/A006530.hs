@@ -1,5 +1,5 @@
 module HelperSequences.A006530 (a006530) where
-import Helpers.Primes (primeFactors)
+import HelperSequences.A238689 (a238689_row)
 
 a006530 :: Integer -> Integer
-a006530 = maximum . primeFactors
+a006530 = maximum . a238689_row
