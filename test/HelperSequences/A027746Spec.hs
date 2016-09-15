@@ -7,6 +7,6 @@ main = hspec spec
 
 spec :: Spec
 spec = describe "A027746" $
-    it "correctly computes the first 20 elements" $
-      take 20 (map a027746 [1..]) `shouldBe` expectedValue where
-        expectedValue = [1,2,3,2,2,5,2,3,7,2,2,2,3,3,2,5,11,2,2,3]
+  it "correctly computes the first 20 elements" $
+    take 20 (map a027746 [1..]) `shouldBe` expectedValue where
+      expectedValue = [1,2,3,2,2,5,2,3,7,2,2,2,3,3,2,5,11,2,2,3]
