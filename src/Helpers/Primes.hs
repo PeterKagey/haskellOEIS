@@ -8,7 +8,7 @@ import HelperSequences.A238689 (a238689_row)
 -- will write my own implementation later (fingers crossed!)
 
 isPrime :: Integral a => a -> Bool
-isPrime n = Just n' == find (>= n') a000040_list where
+isPrime n = n' `elem` takeWhile (<= n') a000040_list where
   n' = fromIntegral n
 
 primeFactors :: Integer -> [Integer]
