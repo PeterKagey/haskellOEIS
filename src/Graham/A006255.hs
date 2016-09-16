@@ -1,7 +1,10 @@
-module Graham.A006255 (iMatrix, a006255) where
+module Graham.A006255 (a006255, a999999_list) where
 import Graham.A248663 (a248663)
-import Data.Matrix (Matrix, matrix)
+import Data.Matrix (Matrix, matrix, toLists)
+import Data.List (elemIndex)
+import Data.Maybe (fromJust)
 import Data.Bits
+import Helpers.BooleanMatrix (rref)
 
 -- A006255 1 = 1  via [1]
 -- A006255 2 = 6  via [2, 3, 6]
@@ -10,7 +13,7 @@ import Data.Bits
 -- A006255 5 = 10 via [5, 8, 10]
 -- A006255 6 = 12 via [6, 8, 12]
 
-a006255 n = n
+a006255 = last . a999999_row
 
 -- Initial Boolean matrix for A006255
 iMatrix :: Integer -> Matrix Bool
@@ -35,3 +38,13 @@ entry n i j = testBit a248663' (i - 1) where
 bitLength :: Integral a => a -> Int
 bitLength 0 = 0
 bitLength n = 1 + bitLength (n `div` 2)
+
+rrefMatrix :: Integer -> [[Bool]]
+rrefMatrix = toLists . rref . iMatrix
+
+a999999_row n = (n:) $ map (adjusted . columnIndex) $ relevantRows where
+  adjusted = (1 + n +)
+  relevantRows = filter last $ rrefMatrix n
+  columnIndex = fromIntegral . fromJust . elemIndex True
+
+a999999_list = concatMap a999999_row [1..]
