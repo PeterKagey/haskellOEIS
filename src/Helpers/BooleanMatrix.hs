@@ -1,5 +1,5 @@
-module Helpers.BooleanMatrix (rref) where
-import Data.Matrix (Matrix, mapRow, getRow, nrows, ncols, getElem)
+module Helpers.BooleanMatrix (rref, rank, nullity) where
+import Data.Matrix (Matrix, mapRow, getRow, nrows, ncols, getElem, switchRows, toLists)
 import Data.Vector (Vector, zipWith, (!))
 import Data.List (delete, find)
 import Data.Maybe (fromJust)
@@ -26,18 +26,6 @@ xorRows :: Int -- row index i
 xorRows i j m = setRow newRow j m where
   newRow = Data.Vector.zipWith (/=) (getRow i m) (getRow j m)
 
--- swaps row i with row j.
---                          (F T T)   (F T T)
---                          (F F F)   (T T T)
--- Then transposeRows m 2 3 (T T T) = (F F F)
---
-transposeRows :: Int -- row index i
-              -> Int -- row index j
-              -> Matrix Bool -- initial matrix
-              -> Matrix Bool
-transposeRows i j m = setRow (row j) i $ setRow (row i) j m where
-  row k = getRow k m
-
 setRow :: Vector Bool -> Int -> Matrix Bool -> Matrix Bool
 setRow row = mapRow (\k _ -> row ! (k - 1))
 
@@ -47,9 +35,16 @@ relevantRowIndices c m = filter (\row -> getElem row c m) [1..nrows m]
 reduceColumn :: Int -> Int -> Matrix Bool -> Matrix Bool
 reduceColumn r c m
   | done      = m
-  | swap      = reduceColumn r c $ transposeRows r' r m
+  | swap      = reduceColumn r c $ switchRows r' r m
   | otherwise = foldr (xorRows r) m (delete r rowIndices) where
     rowIndices = relevantRowIndices c m
     r' = fromJust $ find (>r) rowIndices
     swap = r `notElem` rowIndices
     done = rowIndices == [r] || all (<r) rowIndices
+
+rank :: Matrix Bool -> Int
+rank m = length $ filter (\row -> not $ all (==False) row) $ toLists m' where
+  m' = rref m
+
+nullity :: Matrix Bool -> Int
+nullity m = ncols m - rank m
