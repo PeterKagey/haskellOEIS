@@ -1,7 +1,3 @@
-.idea/*
-*.hsplay
-*/Setup*
-*.yaml
-*.cabal
-Sandbox
+.stack-work
+src/Sandbox
 dist
