@@ -1,0 +1,12 @@
+module Graham.A277278 (a277278) where
+import Helpers.Subsets (a048793_tabf)
+import Helpers.SquareHelper (isSquare)
+import Data.List (find)
+import Data.Maybe (fromJust)
+
+a277278 :: Integer -> Integer
+a277278 n
+  | isSquare n = n
+  | otherwise  = last $ fromJust $ find (isSquare . sum) candidateSequences where
+      candidateSequences = map ((n:) . map (n+)) a048793_tabf
+
