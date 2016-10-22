@@ -1,5 +1,8 @@
-module Helpers.Subsets (oneIndexed, zeroIndexed) where
-import Data.Bits ((.&.), shiftR)
+module Helpers.Subsets (oneIndexed, zeroIndexed, a048793_tabf) where
+import Data.Bits ((.&.))
+
+a048793_tabf :: [[Integer]]
+a048793_tabf = map (reverse . oneIndexed) [1..]
 
 oneIndexed :: Integer -> [Integer]
 oneIndexed n = map (1 +) (zeroIndexed n)
