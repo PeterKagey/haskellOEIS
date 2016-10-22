@@ -3,12 +3,13 @@ import Graham.A006255 (a006255)
 import Graham.A248663 (a248663)
 import Helpers.GrahamLinearAlgebra (iMatrix')
 import Data.Matrix (Matrix)
-import Helpers.BooleanMatrix (nullity)
+import Helpers.BooleanMatrix (nullity, rref)
 
-a260510 = (subtract 1) . nullity . iMatrix2
+a260510 :: Integer -> Int
+a260510 = subtract 1 . nullity . iMatrix2
 
 iMatrixColumns2 :: Integer -> [Integer]
 iMatrixColumns2 n = map a248663 [n..a006255 n]
 
 iMatrix2 :: Integer -> Matrix Bool
-iMatrix2 n = iMatrix' iMatrixColumns2 n
+iMatrix2 = iMatrix' iMatrixColumns2

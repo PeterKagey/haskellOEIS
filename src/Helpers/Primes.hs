@@ -1,5 +1,5 @@
 module Helpers.Primes (primeFactors, primePowers, uniquePrimeFactors, isPrime) where
-import Data.List (group, nub, sort, find)
+import Data.List (group, nub, sort)
 import Control.Arrow ((&&&))
 import HelperSequences.A000040 (a000040_list)
 import HelperSequences.A238689 (a238689_row)

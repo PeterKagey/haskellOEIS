@@ -42,8 +42,9 @@ reduceColumn r c m
     swap = r `notElem` rowIndices
     done = rowIndices == [r] || all (<r) rowIndices
 
+-- Count the number of non-zero *rows*.
 rank :: Matrix Bool -> Int
-rank m = length $ filter (\row -> not $ all (==False) row) $ toLists m' where
+rank m = length $ filter (not . all (==False)) $ toLists m' where
   m' = rref m
 
 nullity :: Matrix Bool -> Int
