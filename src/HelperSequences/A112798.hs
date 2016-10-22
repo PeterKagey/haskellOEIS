@@ -5,8 +5,10 @@ import Data.List (elemIndex)
 import HelperSequences.A000040 (a000040_list)
 
 
+a112798 :: Int -> Int
 a112798 n = a112798_tabl !! (n - 2)
 
+a112798_tabl :: [Int]
 a112798_tabl = concatMap a112798_row [1..]
 
 a112798_row :: Integer -> [Int]
