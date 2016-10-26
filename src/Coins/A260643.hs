@@ -1,4 +1,4 @@
-module Coins.A260643 (a260643) where
+module Coins.A260643 (a260643, a260643_list) where
 import Data.List (delete)
 import Coins.A265400 (a265400)
 
