@@ -1,3 +1,5 @@
 .stack-work
 src/Sandbox
 dist
+.cabal-sandbox
+cabal.sandbox.config
