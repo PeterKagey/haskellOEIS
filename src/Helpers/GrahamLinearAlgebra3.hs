@@ -1,31 +1,41 @@
 module Helpers.GrahamLinearAlgebra3 (rrefMatrix) where
-import Data.List (find)
-import Data.Vector (Vector, generate)
 import Helpers.F3Vectors (rref)
+import Data.Vector (Vector, fromList, head, map, snoc, tail, replicate, (//))
 import HelperSequences.A000040 (a000040_list)
 import HelperSequences.A000720 (a000720)
-import Helpers.Primes (primePowers)
 
-rrefMatrix :: Integer -> Vector (Vector Int)
+rrefMatrix :: Int -> Vector (Vector Int)
 rrefMatrix = rref . iMatrix
 
-iMatrix :: Integer -> Vector (Vector Int)
-iMatrix n = generate h (\i -> generate l (f n i)) where
-  h = fromIntegral $ a000720 $ upperBound n
-  l = fromIntegral $ upperBound n - n + 1
+tupleBuilder :: Int          -- e.g. 5
+             -> Int          -- e.g. 7
+             -> Int          -- e.g. 3
+             -> Int          -- e.g. 1
+             -> [(Int, Int)] -- e.g. [(1,1), (4,1), (7,1)] (5 + 1, 5 + 4, and 5 + 7 are all divisible by 3.)
+tupleBuilder n terms modulus x = zip indexes [x,x..] where
+  offset = modulus + n `mod` (-modulus)
+  numberOfIndices = (terms + offset) `div` modulus
+  indexes = Prelude.map (\i -> modulus * i - offset) [1..numberOfIndices]
 
--- This can be optimized by memoizing the prime factorization of n.
-f :: Integer -> Int -> Int -> Int
-f n i j = x where
-  x = (`mod` 3) $ ithPrimePower i (n + j') where
-    j' = if fromIntegral j == upperBound n - n then 0 else fromIntegral j + 1
+powersToTry :: Int -> Int -> Int -> [(Int, Int)]
+powersToTry n terms modulus = concatMap build [1..maxTerm] where
+  build i = tupleBuilder n terms (modulus^i) (i `mod` 3)
+  maxTerm = floor $ logBase a b where
+    (a, b) = (fromIntegral modulus, fromIntegral (n + terms))
 
-upperBound :: Integer -> Integer
-upperBound n
-  | n == 4    = 9
-  | otherwise = 2 * n
+buildRow :: Int -> Int -> Int -> Vector Int
+buildRow n terms modulus = emptyVector // newValues where
+  emptyVector = Data.Vector.replicate (terms + 1) 0
+  newValues = powersToTry n terms modulus
 
--- primePowers uses ~80% of CPU time.
-ithPrimePower :: Int -> Integer -> Int
-ithPrimePower i = maybe 0 snd . find ithPower . primePowers where
-  ithPower (a, _) = a == a000040_list !! i
+buildMatrix1 :: Int -> Int -> Vector (Vector Int)
+buildMatrix1 n terms = fromList $ Prelude.map (buildRow n terms) primeColumns where
+  primeColumns :: [Int]
+  primeColumns = Prelude.map fromInteger $ take (fromInteger $ a000720 n') a000040_list where
+    n' = fromIntegral (n + terms)
+
+iMatrix :: Int -> Vector (Vector Int)
+iMatrix n = Data.Vector.map cycleVector scaledMatrix where
+  scaledMatrix = buildMatrix1 n terms where
+    terms = if n == 4 then 8 else 2 * n - 1
+  cycleVector m = snoc (Data.Vector.tail m) (Data.Vector.head m)

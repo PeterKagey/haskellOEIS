@@ -5,14 +5,13 @@ import Data.List (elemIndices)
 import Data.Vector (toList, map, (!), zipWith, zip, findIndex, filter, last)
 import Data.Maybe (fromJust)
 
-a277494 :: Integer -> Int
+a277494 :: Int -> Int
 a277494 n
-  | array == [0] = n'
+  | array == [0] = n
   | otherwise    = Prelude.last array where
     array = 0 : Prelude.map fst (a277494' n)
-    n' = fromIntegral n
 
-a277494' :: Integer -> [(Int, Int)]
+a277494' :: Int -> [(Int, Int)]
 a277494' n = (n', 1) : (toList $ Data.Vector.zip bases powers) where
   n' = fromIntegral n
   m = rrefMatrix n

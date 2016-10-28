@@ -1,7 +1,7 @@
 module Helpers.F3Vectors where
 
 -- import Data.Matrix (mapRow, Matrix, getRow, nrows, getElem, switchRows, ncols)
-import Data.Vector (Vector, generate, zipWith, (!), (//), map, length)
+import Data.Vector (Vector, zipWith, (!), (//), map, length)
 import Data.List (find, delete)
 import Data.Maybe (fromMaybe)
 
@@ -21,7 +21,10 @@ multiplyRow scalar r_i m = m // [(r_i, scaledRow)] where
   scaledRow = Data.Vector.map (\i -> (i * scalar) `mod` 3) $ m ! r_i
 
 
+nrows :: Vector (Vector Int) -> Int
 nrows m = Data.Vector.length m - 1
+
+ncols :: Vector (Vector Int) -> Int
 ncols m = Data.Vector.length (m ! 0) - 1
 
 combineRows :: (Int -> Int -> Int) -- function to combine rows: e.g. (+)
@@ -42,7 +45,7 @@ switchRows r1 r2 m = m // [(r1, m ! r2), (r2, m ! r1)]
 -- -- (2) Swap to the top
 -- -- (3) Add appropriate multiples of the "top" row to all other rows
 reduceColumn :: Int -> Int -> Vector (Vector Int) -> Vector (Vector Int)
-reduceColumn r c = (cancelRows r c) . (swapToTheTop r c) . (clearOut r c)
+reduceColumn r c = cancelRows r c . swapToTheTop r c . clearOut r c
 
 -- -- (1)
 clearOut :: Int -> Int -> Vector (Vector Int) -> Vector (Vector Int)
@@ -67,7 +70,7 @@ cancelRows r c m
   | m ! r ! c /= 1 = m
   | otherwise      = foldr cancel m nonZeroRowsIndices where
     nonZeroRowsIndices = filter (\r_i -> m ! r_i ! c /= 0) $ delete r [0..nrows m]
-    cancel r_i m' = combineRows (\i j -> (i + rInv * j) `mod` 3) r_i r m' where
+    cancel r_i = combineRows (\i j -> (i + rInv * j) `mod` 3) r_i r where
       rInv = if m ! r_i ! c == 1 then 2 else 1
 
 -- -- Count the number of non-zero *rows*.
