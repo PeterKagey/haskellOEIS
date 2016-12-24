@@ -1,4 +1,4 @@
-module Helpers.Primes (primeFactors, primePowers, uniquePrimeFactors, isPrime) where
+module Helpers.Primes (primeFactors, primePowers, uniquePrimeFactors, isPrime, properFactors) where
 import Data.List (group, nub, sort)
 import Control.Arrow ((&&&))
 import HelperSequences.A000040 (a000040_list)
@@ -23,3 +23,15 @@ primePowers = map (head &&& length) . group . sort . primeFactors
 
 uniquePrimeFactors :: Integer -> [Integer]
 uniquePrimeFactors = nub . primeFactors
+
+properFactors :: Integer -> [Integer]
+properFactors = drop 1 . properDivisors
+
+-- This returns proper divisors in order (e.g. factors 12 = 1, 2, 3, 4, 6)
+properDivisors :: Integer -> [Integer]
+properDivisors n = recurse [1] $ primePowers n where
+  recurse accum [] = init $ sort accum
+  recurse accum ((p, k) : remaining) = recurse nextGeneration remaining where
+    nextGeneration = accum ++ concatMap new a
+    new d = map (d*) accum
+    a = map (p^) [1..k]
