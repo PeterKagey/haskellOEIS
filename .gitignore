@@ -3,3 +3,6 @@ src/Sandbox
 dist
 .cabal-sandbox
 cabal.sandbox.config
+src/Main.hs
+proglet.hp
+proglet.prof
