@@ -1,4 +1,4 @@
-module Helpers.Subsets (oneIndexed, zeroIndexed, a048793_tabf) where
+module Helpers.Subsets (oneIndexed, zeroIndexed, a048793_tabf, allSubsets) where
 import Data.Bits ((.&.))
 
 a048793_tabf :: [[Integer]]
@@ -12,3 +12,6 @@ zeroIndexed n = count n 0 where
   count 0 _ = []
   count m c = count (m `div` 2) (c + 1) ++ take (fromIntegral $ m .&. 1) [c]
 
+allSubsets :: [a] -> [[a]]
+allSubsets = foldr nextSubsets [[]] where
+  nextSubsets a existingSubsets = existingSubsets ++ map (a:) existingSubsets
