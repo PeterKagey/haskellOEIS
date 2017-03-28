@@ -4,3 +4,4 @@ import Helpers.BraxtonHelper (enumerateSequences, SymmetricRelation(..), Reflexi
 a284432 n = length $ enumerateA284432 n n
 enumerateA284432 = enumerateSequences Reflexive NonSymmetric sum
 -- (1,1,2,2,4,4,4,48,48,144...)
+-- Counts A282168
