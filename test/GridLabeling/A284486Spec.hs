@@ -1,6 +1,6 @@
-module GridLabelling.A284486Spec (main, spec) where
+module GridLabeling.A284486Spec (main, spec) where
 import Test.Hspec
-import GridLabelling.A284486 (a284486)
+import GridLabeling.A284486 (a284486)
 
 main :: IO ()
 main = hspec spec
