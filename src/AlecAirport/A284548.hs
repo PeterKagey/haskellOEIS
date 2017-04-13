@@ -12,9 +12,8 @@ alecAirportHelper f = 1 : remaining 1 (repeat []) [Just 1] where
   remaining :: Int -> [[Int]] -> [Maybe Int] -> [Int]
   remaining n (l:ls) knownTerms = a_n : remaining (n + 1) nextGeneration (Just a_n : knownTerms) where
     a_n = fromJust $ find (not . (`elem` l)) [1..]
-    nextGeneration = zipWith optionalCons termsToMarkOff ls where
+    nextGeneration = zipWith optionalCons ls termsToMarkOff where
       termsToMarkOff = take (f n a_n) knownTerms ++ repeat Nothing
 
-optionalCons :: Maybe a -> [a] -> [a]
-optionalCons (Just a) as = a : as
-optionalCons _ as = as
+optionalCons :: [a] -> Maybe a -> [a]
+optionalCons = foldr (:)
