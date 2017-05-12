@@ -20,5 +20,5 @@ zipWithPadding pad as     []      = zip as (repeat pad)
 zipWithPadding pad []      bs     = zip (repeat pad) bs
 
 firstDifferences :: Integral a => [a] -> [a]
-firstDifferences list = zipWith (-) (tail list) list
-
+firstDifferences [] = []
+firstDifferences ls'@(_:ls) = zipWith (-) ls ls'
