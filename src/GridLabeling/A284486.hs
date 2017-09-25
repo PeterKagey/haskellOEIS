@@ -1,4 +1,4 @@
-module GridLabelling.A284486 (a284486) where
+module GridLabeling.A284486 (a284486) where
 import Helpers.Table (n_k)
 import Data.Ratio ((%))
 import Data.List (groupBy, sort, partition)
