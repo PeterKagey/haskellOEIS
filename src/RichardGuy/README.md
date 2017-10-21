@@ -1,8 +1,8 @@
 In January 2017, Neil Sloane did a talk at Rutgers called Winter Fruits: New problems from OEIS December 2016 – January 2017.
 
-On [slide](http://neilsloane.com/doc/Jan2017EM.pdf) 12, Neil brought up a letter that Richard Guy 
-had sent him from June 24, 1971, in which Guy describes a handful of sequences. Neil asked if folks 
-could give more precise defintions for the sequences, and extend/correct them. I did this for [A279197](http://oeis.org/A279197).
+On [slide](http://neilsloane.com/doc/Jan2017EM.pdf) 12, Neil brought up a letter that Richard Guy
+had sent him from June 24, 1971, in which Guy describes a handful of sequences. Neil asked if folks
+could give more precise definitions for the sequences, and extend/correct them. I did this for [A279197](http://oeis.org/A279197).
 
 A279197 counts self-conjugate inseparable solutions of X + Y = 2Z. (integer, disjoint triples from {1,2,3,...,3n}).
 
