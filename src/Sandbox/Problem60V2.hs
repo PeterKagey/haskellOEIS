@@ -1,10 +1,10 @@
 module Miscellaneous.Problem70 where
 import Data.List (permutations, subsequences, nub)
 
-
--- search n k = head $ filter (\s -> count s == k) $ combination n [1..n]
-
+--  1,2,5,9,17,30
 a n = maximum $ map (count (comparisons . pairs)) $ combination n [1..n]
+
+-- 1,2,5,9,16,26
 a' n = maximum $ map (count (deduplicate . comparisons . pairs)) $ combination n [1..n]
 
 count differences xs = length $ nub $ map differences $ subsequences xs
