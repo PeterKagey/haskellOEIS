@@ -1,4 +1,4 @@
-module Miscellaneous.A272756 (a272756) where
+module Binary.A272756 (a272756) where
 import Data.List (find)
 import Data.Maybe (fromJust)
 import HelperSequences.A070939 (a070939)
