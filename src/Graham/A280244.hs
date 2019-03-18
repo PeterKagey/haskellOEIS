@@ -5,6 +5,7 @@ import Helpers.Primes (isPrime)
 import Helpers.Subsets (allSubsets)
 import Data.Bits (xor)
 import Data.List (sort)
+import Helpers.Primes (uniquePrimeFactors)
 
 a280244 :: Int -> Integer
 a280244 n = a280244_list !! (n - 1)

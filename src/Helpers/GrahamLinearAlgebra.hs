@@ -1,15 +1,12 @@
-module Helpers.GrahamLinearAlgebra (rrefMatrix, iMatrix') where
+module Helpers.GrahamLinearAlgebra (rrefMatrix, matrixFromColumnLabels) where
 import Graham.A248663 (a248663)
 import Data.Matrix (Matrix, matrix)
 import Data.Bits
 import Helpers.BooleanMatrix (rref)
 
 -- Initial Boolean matrix for A006255
-iMatrix :: Integer -> Matrix Bool
-iMatrix = iMatrix' iMatrixColumns
-
-iMatrixColumns :: Integer -> [Integer]
-iMatrixColumns n = map a248663 [n + 1..upperBound n] ++ [a248663 n]
+initialMatrix :: Integer -> Matrix Bool
+initialMatrix n = matrixFromColumnLabels $ [n + 1..upperBound n] ++ [n]
 
 upperBound :: Integer -> Integer
 upperBound n
@@ -28,11 +25,11 @@ bitLength 0 = 0
 bitLength n = 1 + bitLength (n `div` 2)
 
 rrefMatrix :: Integer -> Matrix Bool
-rrefMatrix = rref . iMatrix
+rrefMatrix = rref . initialMatrix
 
 ----------------------------------
 
-iMatrix' :: (Integer -> [Integer]) -> Integer -> Matrix Bool
-iMatrix' f n = matrix height (length x) (uncurry $ entry x) where
-  height = maximum $ map bitLength x
-  x = f n
+matrixFromColumnLabels :: [Integer] -> Matrix Bool
+matrixFromColumnLabels labels = matrix height (length columns) (uncurry $ entry columns) where
+  height = maximum $ map bitLength columns
+  columns = map a248663 labels
