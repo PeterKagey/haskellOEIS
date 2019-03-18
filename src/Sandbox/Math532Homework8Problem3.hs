@@ -1,0 +1,36 @@
+import Data.List 
+-- a 0 = 1
+-- a 1 = 1 -- 1
+-- a 2 = 1 -- 2 > 1
+-- a n
+--   | even n = a (n - 1)
+--   | odd n  = (sum $ map (\k -> a (2*k - 1) * a (n - 2*k)) [1..n `div` 2]) + a (n - 1)
+
+-- A006318 ?
+-- a_list = 1 : 1 : recurse 2 where
+--   recurse n = nextTerm : recurse (n + 1) where
+--     a = (!!) a_list
+--     nextTerm
+--       | even n = a (n - 1)
+--       | odd n  = sum $ map (\k -> a (k - 1) * a (n - k)) [2..n]
+--
+--
+-- isAlternating :: [Int] -> Bool
+-- isAlternating = recurse True where
+--   recurse _ [] = True
+--   recurse _ [_] = True
+--   recurse isGreaterThan (x1:x2:xs)
+--     | isGreaterThan && x1 > x2 = recurse False (x2:xs)
+--     | not isGreaterThan && x1 < x2 = recurse True (x2:xs)
+--     | otherwise = False
+--
+-- is132Avoiding :: [Int] -> Bool
+-- is132Avoiding [] = True
+-- is132Avoiding xs = all (> x) firstChunk && is132Avoiding firstChunk && all (<= x) secondChunk && is132Avoiding secondChunk where
+--   n = length xs
+--   x = last xs
+--   x' = x - minimum xs + 1
+--   firstChunk = take (n - x') xs
+--   secondChunk = init $ drop (n - x') xs
+--
+-- all132Avoiding n = filter is132Avoiding $ Data.List.permutations [1..n]
