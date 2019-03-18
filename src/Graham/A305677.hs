@@ -1,8 +1,5 @@
 module Graham.A305677 (a305677) where
-import PowerDivisibility.A072905 (a072905)
-import Helpers.GrahamLinearAlgebra (matrixFromColumnLabels)
-import Data.Matrix (Matrix)
-import Helpers.BooleanMatrix (nullity)
+import Graham.A321482 (a321482)
 -- import Helpers.Subsets (allSubsets)
 -- import HelperSequences.A007913 (a007913)
 
@@ -17,10 +14,4 @@ import Helpers.BooleanMatrix (nullity)
 --
 -- (!!) This does not work if A305677(n) = 0.
 a305677 :: Integer -> Integer
-a305677 = (2^) . nullity . initialMatrix
-
-a305677' :: Integer -> Int
-a305677' = nullity . initialMatrix
-
-initialMatrix :: Integer -> Matrix Bool
-initialMatrix n = matrixFromColumnLabels [n + 1..a072905 n - 1]
+a305677 = (2^) . a321482
