@@ -1,4 +1,4 @@
-module Subsets.A096111 (a096111) where
+module External.A096111 (a096111) where
 import Helpers.Subsets (oneIndexed)
 
 a096111 :: Integer -> Integer

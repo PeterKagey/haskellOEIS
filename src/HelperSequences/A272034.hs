@@ -1,5 +1,5 @@
-module Subsets.A272034 (a272034, a272034_list) where
-import Subsets.A116416 (a116416)
+module HelperSequences.A272034 (a272034, a272034_list) where
+import HelperSequences.A116416 (a116416)
 
 a272034 :: Int -> Integer
 a272034 = (a272034_list !!)

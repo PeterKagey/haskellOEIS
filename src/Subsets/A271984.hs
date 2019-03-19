@@ -1,5 +1,5 @@
 module Subsets.A271984 (a271984) where
-import Subsets.A116417 (a116417)
+import HelperSequences.A116417 (a116417)
 import Subsets.A271410 (a271410)
 
 a271984 :: Int -> Integer

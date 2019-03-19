@@ -1,4 +1,4 @@
-module Subsets.A116417 (a116417) where
+module HelperSequences.A116417 (a116417) where
 import Helpers.ListHelpers (reciprocalSum)
 import Helpers.Subsets (oneIndexed)
 import Data.Ratio (denominator)

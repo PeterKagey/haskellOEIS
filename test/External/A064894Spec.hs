@@ -1,6 +1,6 @@
-module Subsets.A064894Spec (main, spec) where
+module External.A064894Spec (main, spec) where
 import Test.Hspec
-import Subsets.A064894 (a064894)
+import External.A064894 (a064894)
 
 main :: IO ()
 main = hspec spec

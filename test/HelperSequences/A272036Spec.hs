@@ -1,6 +1,6 @@
-module Subsets.A272036Spec (main, spec) where
+module HelperSequences.A272036Spec (main, spec) where
 import Test.Hspec
-import Subsets.A272036 (a272036)
+import HelperSequences.A272036 (a272036)
 
 main :: IO ()
 main = hspec spec
