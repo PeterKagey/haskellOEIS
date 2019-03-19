@@ -1,5 +1,5 @@
 module HelperSequences.A066099 (a066099, a066099_list, a066099_tabf, a066099_row) where
-import Miscellaneous.A228351 (a228351_row)
+import HelperSequences.A228351 (a228351_row)
 
 a066099 :: Int -> Int
 a066099 = (!!) a066099_list
