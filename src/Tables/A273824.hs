@@ -1,4 +1,4 @@
-module Miscellaneous.A273824 (a273824, a273824_row, a273824_tabf) where
+module Tables.A273824 (a273824, a273824_row, a273824_tabf) where
 import Miscellaneous.A271439 (a271439)
 import Data.List (genericIndex)
 

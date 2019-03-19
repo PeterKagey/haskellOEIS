@@ -1,8 +1,8 @@
-module Miscellaneous.A274080 (a274080, a274080_row, a274080_tabf) where
-import Miscellaneous.A273823 (a273823_row)
-import Miscellaneous.A273824 (a273824_row)
-import Miscellaneous.A273825 (a273825_row)
-import Miscellaneous.A274079 (a274079_row)
+module Tables.A274080 (a274080, a274080_row, a274080_tabf) where
+import Tables.A273823 (a273823_row)
+import Tables.A273824 (a273824_row)
+import Tables.A273825 (a273825_row)
+import Tables.A274079 (a274079_row)
 import Data.List (sort, nub, genericIndex)
 
 

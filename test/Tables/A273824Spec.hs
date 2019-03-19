@@ -1,6 +1,6 @@
-module Miscellaneous.A273824Spec (main, spec) where
+module Tables.A273824Spec (main, spec) where
 import Test.Hspec
-import Miscellaneous.A273824 (a273824)
+import Tables.A273824 (a273824)
 
 main :: IO ()
 main = hspec spec

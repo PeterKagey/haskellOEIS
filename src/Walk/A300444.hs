@@ -1,7 +1,8 @@
-module Miscellaneous.A300444 (a300444, a300444_list) where
+module Walk.A300444 (a300444, a300444_list) where
 import Data.Ratio
 import Data.Set (Set, fromList, empty, union, member)
 import Data.List (findIndices)
+-- The path-avoiding snail.
 
 type Q = Ratio Int
 type Path = [Step]

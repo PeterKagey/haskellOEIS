@@ -1,4 +1,4 @@
-module Miscellaneous.A262343 (a262343) where
+module External.A262343 (a262343) where
 
 a262343 :: Integral a => a -> a
 a262343 n

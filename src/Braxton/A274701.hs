@@ -1,5 +1,5 @@
-module Miscellaneous.A274701 (a274701) where
-import Miscellaneous.A259280 (a259280)
+module Braxton.A274701 (a274701) where
+import Braxton.A259280 (a259280)
 import Helpers.ListHelpers (firstDifferences)
 
 a274701 :: Int -> Integer

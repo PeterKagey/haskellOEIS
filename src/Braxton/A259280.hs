@@ -1,4 +1,4 @@
-module Miscellaneous.A259280 (a259280) where
+module Braxton.A259280 (a259280) where
 import HelperSequences.A060432 (a060432)
 
 a259280 :: Int -> Integer

@@ -1,5 +1,5 @@
 module AlecSequences.A279967 (a279967) where
-import Miscellaneous.A274080 (a274080_row)
+import Tables.A274080 (a274080_row)
 import Data.List (genericIndex)
 
 a279967 :: Integer -> Integer

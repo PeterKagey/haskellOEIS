@@ -1,4 +1,4 @@
-module Miscellaneous.A279963 (a279963, a279963_list) where
+module Anagram.A279963 (a279963, a279963_list) where
 import Helpers.AnagramHelper (knIsBaseBAnagramOfN)
 
 a279963 :: Int -> Integer

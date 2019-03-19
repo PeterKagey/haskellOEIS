@@ -1,6 +1,6 @@
-module Miscellaneous.A259280Spec (main, spec) where
+module Braxton.A259280Spec (main, spec) where
 import Test.Hspec
-import Miscellaneous.A259280 (a259280)
+import Braxton.A259280 (a259280)
 
 main :: IO ()
 main = hspec spec

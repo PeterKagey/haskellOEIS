@@ -1,6 +1,6 @@
 module AlecSequences.A280172 (a280172, a280172_list) where
-import Miscellaneous.A273823 (a273823_row)
-import Miscellaneous.A273824 (a273824_row)
+import Tables.A273823 (a273823_row)
+import Tables.A273824 (a273824_row)
 import Data.List ((\\), sort, nub, genericIndex)
 
 a280172 :: Integer -> Integer

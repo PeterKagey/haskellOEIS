@@ -1,4 +1,4 @@
-module Miscellaneous.A293689 (a293689, a293689_list) where
+module Walk.A293689 (a293689, a293689_list) where
 import Helpers.Primes (isPrime)
 -- The Prime Ant
 

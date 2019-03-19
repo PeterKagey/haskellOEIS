@@ -1,6 +1,6 @@
-module Miscellaneous.A300444Spec (main, spec) where
+module Walk.A300444Spec (main, spec) where
 import Test.Hspec
-import Miscellaneous.A300444 (a300444)
+import Walk.A300444 (a300444)
 
 main :: IO ()
 main = hspec spec
