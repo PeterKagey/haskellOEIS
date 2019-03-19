@@ -1,5 +1,4 @@
-import Data.Maybe
-import Helpers.Table (n_k, n'_k')
+module Helpers.NorthEastWalks (maximalTorusWalks, allTorusWalks, CurrentState (Completed)) where
 import Data.Set (Set, empty, insert)
 
 data CurrentState = Intersected | Completed (Set Position) | Ongoing State deriving (Show, Eq)
@@ -21,21 +20,6 @@ allTorusWalks n m = recurse [] [Ongoing ((0, 0), empty)] where
     nextStates = concatMap (\s -> [nextStatesRight n s, nextStatesUp m s]) ongoingStates
     ongoingStates' = filter isOngoing nextStates
     completedWalks' = completedWalks ++ filter isCompleted nextStates
-
-a324604 n = case n'_k' (n - 1) of (a, b) -> length $ allTorusWalks (a + 1)  (b + 1)
--- 2,1,2,1,5,6,1,2,11,8,1,9,14,19,30,1,2,3,2,29,12,1,13,76,27,99,41
-a324605 n = case n'_k' (n - 1) of (a, b) -> length $ maximalTorusWalks (a + 1)  (b + 1)
--- 1,2,4,3,5,9,4,8,11,16,5,9,14,19,25,6,12,18,24,29,36,7,13,19,27,33,41
--- 1,
--- 2,4,
--- 3,5,9,
--- 4,8,11,16,
--- 5,9,14,19,25,
--- 6,12,18,24,29,36,
--- 7,13,19,27,33,41,?49?
-
--- Bad implementation.
-a306779 n = case n'_k' (n - 1) of (a, b) -> map stepCount $ maximalTorusWalks (a + 1)  (b + 1)
 
 nextStatesRight :: Int -> CurrentState -> CurrentState
 nextStatesRight width (Ongoing ((x, y), pastPositions))
@@ -74,8 +58,3 @@ isOngoing _           = False
 -- n x m cylinder maximal
 -- n x n cylinder up > right
 -- n x m cylinder up > right
-
-stepCount :: CurrentState -> Int
-stepCount Intersected = error "Intersected"
-stepCount (Ongoing _) = error "Ongoing!"
-stepCount (Completed steps) = length steps
