@@ -1,4 +1,4 @@
-import Data.List (maximumBy, tails)
+import Data.List (tails)
 import Data.Ord (comparing)
 
 longestMonotonicIncreasing [] = 0
