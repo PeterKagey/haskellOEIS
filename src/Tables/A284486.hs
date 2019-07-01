@@ -1,4 +1,4 @@
-module Tables.A284486 (a284486) where
+module Tables.A284486 (a284486, a284486_list) where
 import Helpers.Table (n_k)
 import Data.Ratio ((%))
 import Data.List (groupBy, sort, partition)
