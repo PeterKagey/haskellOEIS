@@ -1,4 +1,4 @@
-module Graham.A269045 (a269045) where
+module Graham.A269045 (a269045, a269045_list) where
 import Graham.A006255 (a006255)
 import HelperSequences.A070229 (a070229)
 

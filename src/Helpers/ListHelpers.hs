@@ -22,3 +22,26 @@ zipWithPadding pad []      bs     = zip (repeat pad) bs
 firstDifferences :: Integral a => [a] -> [a]
 firstDifferences [] = []
 firstDifferences ls'@(_:ls) = zipWith (-) ls ls'
+
+-- minBy :: (a -> Int) -> [a] -> a
+-- minBy f (a:as) = recurse a as where
+--   recurse knownMin [] = knownMin
+--   recurse knownMin (x:xs) = if f knownMin <= f x then recurse knownMin xs else recurse x xs
+--
+-- minByUniq :: (a -> Int) -> [a] -> a
+-- minByUniq f (a:as) = recurse [a] as where
+--   recurse [knownMin] [] = knownMin
+--   recurse (x:x':xs) [] = error "Multiple minima" + show x + show x'
+--   recurse knownMin (x:xs)
+--     | f knownMin  < f x = recurse knownMin xs
+--     | f knownMin == f x = recurse (x:knownMin)
+--     | f knownMin  > f x = recurse x xs
+--
+-- allMin :: (a -> Int) -> [a] -> [a]
+-- allMin _ []     = []
+-- allMin f (a:as) = recurse [a] (f a) as where
+--   recurse known _ []  = known
+--   recurse known knownMin (x:xs)
+--     | f x == knownMin = recurse (x : known) knownMin xs
+--     | f x > knownMin  = recurse       known knownMin xs
+--     | otherwise       = recurse         [x]    (f x) xs

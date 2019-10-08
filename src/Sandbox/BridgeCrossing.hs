@@ -10,6 +10,7 @@ eachPair [] = []
 eachPair (h:as) = map (\a -> (h, a)) as ++ eachPair as
 
 -- A brute force approach.
+-- It would be better if [1,1,1,1,...,1] didn't have so many redundant calculations.
 minimumTime :: [Int] -> Int
 minimumTime [] = 0
 minimumTime [t] = t
@@ -50,3 +51,5 @@ a026791_n :: Int -> [[Int]]
 a026791_n 0 = [[]]
 a026791_n n = concatMap f [1..n] where
   f k = map (k:) $ filter (all (>=k)) $ a026791_n (n - k)
+
+a318271_list = map minimumTime a026791_rows

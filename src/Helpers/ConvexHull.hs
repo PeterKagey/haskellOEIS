@@ -1,4 +1,4 @@
-module Helpers.ConvexHull (findNextSequence, increment) where
+module Helpers.ConvexHull (findNextSequence, increment, convexHull) where
 import Data.List (sort)
 
 

@@ -1,0 +1,14 @@
+-- type Partition = [Int]
+--
+-- shift :: Partition -> Partition
+-- shift partition@(p:ps)
+--   | p == 1    = ps ++ [1]
+--   | otherwise = incrementLast $ (p-1) : ps
+-- -- 10010   -> 00101   -> 01010   -> 10100   -> 01001
+-- -- {1,4}   -> {3,5}   -> {2,4}   -> {1,3}   -> {2,5}
+-- -- (1,3,2) -> (3,2,1) -> (2,2,2) -> (1,2,3) -> (2,3,1)
+--
+-- incrementLast :: [Int] -> [Int]
+-- incrementLast [] = []
+-- incrementLast [a] = [a + 1]
+-- incrementLast (a:as) = a : incrementLast as

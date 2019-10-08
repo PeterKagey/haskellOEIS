@@ -1,5 +1,5 @@
 module Sandbox.PolyominoCover (a999999) where
-import Data.List (sort, nub)
+import Data.List (sort, nub, intersect)
 -- https://codegolf.stackexchange.com/q/167484/53884
 
 type Coord = Int
@@ -9,6 +9,10 @@ type Polyomino = [Point]
 -- This is slow, and it can be sped up without too much trouble.
 a999999 :: Int -> Int
 a999999 n = head $ filter (anyCovering n) [n..]
+
+connectionCount :: Polyomino -> Int
+connectionCount [] = 0
+connectionCount (p:ps) = length (intersect ps $ contiguous p) + connectionCount ps
 
 -- https://rosettacode.org/wiki/Free_polyominoes_enumeration#Haskell
 -- Finds the min x and y coordiate of a Polyomino.
@@ -104,6 +108,16 @@ anyCovering n a_n
   | n > a_n = False
   | otherwise = any (`coversAll` smallPolyominoes) $ rank a_n where
     smallPolyominoes = rank n
+
+----------------------------------
+allMax :: (a -> Int) -> [a] -> [a]
+allMax _ []     = []
+allMax f (a:as) = recurse [a] (f a) as where
+  recurse known _ []  = known
+  recurse known knownMax (x:xs)
+    | f x == knownMax = recurse (x : known) knownMax xs
+    | f x < knownMax  = recurse       known knownMax xs
+    | otherwise       = recurse         [x]    (f x) xs
 
 -- coveringPolyominoes :: Int -> Int -> [Polyomino]
 -- coveringPolyominoes smallSize largeSize = filter coversAll (rank largeSize) where
