@@ -5,8 +5,5 @@ import Data.List (find)
 import Data.Maybe (fromJust)
 
 a277278 :: Integer -> Integer
-a277278 n
-  | isSquare n = n
-  | otherwise  = last $ fromJust $ find (isSquare . sum) candidateSequences where
+a277278 n = last $ fromJust $ find (isSquare . sum) candidateSequences where
       candidateSequences = map ((n:) . map (n+)) a048793_tabf
-
