@@ -1,4 +1,4 @@
-module Miscellaneous.A261865 (a261865) where
+module SqrtMultiples.A261865 (a261865) where
 import Tables.A273620 (a273620T)
 import Data.Maybe (fromJust)
 import Data.List (find)

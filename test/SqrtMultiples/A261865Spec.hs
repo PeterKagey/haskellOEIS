@@ -1,6 +1,6 @@
-module Miscellaneous.A261865Spec (main, spec) where
+module SqrtMultiples.A261865Spec (main, spec) where
 import Test.Hspec
-import Miscellaneous.A261865 (a261865)
+import SqrtMultiples.A261865 (a261865)
 
 main :: IO ()
 main = hspec spec
