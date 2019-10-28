@@ -36,6 +36,10 @@ properDivisors n = recurse [1] $ primePowers n where
     new d = map (d*) accum
     a = map (p^) [1..k]
 
+a027751_row :: Integer -> [Integer]
+a027751_row 1 = [1] -- by convention
+a027751_row n = properDivisors n
+
 -- This returns divisors in order (e.g. divisors 12 = 1, 2, 3, 4, 6, 12)
 divisors :: Integer -> [Integer]
 divisors n = properDivisors n ++ [n]

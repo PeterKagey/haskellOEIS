@@ -31,7 +31,3 @@ subsetsBy 0 _  = []
 subsetsBy n (a:as)
   | even n =     subsetsBy (n `div` 2) as
   | odd n  = a : subsetsBy (n `div` 2) as
-
-
-isProductFree as = [] == filter (`elem` as) quotients where
-  quotients = map (\(a,a') -> a `div` a') $ filter (\(a,a') -> a `mod` a' == 0) $ filter (\(a,a') -> a /= a') [(a, a') | a <- as, a' <- as]
