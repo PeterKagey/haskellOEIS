@@ -1,9 +1,8 @@
 module Graham.A328045 (a328045, a328045_list) where
-import Data.List (genericIndex)
+import Data.List (genericIndex, subsequences)
 import Graham.A006255 (a006255_list)
 import Graham.A300518 (a300518)
 import Helpers.SquareHelper (isSquare)
-import Helpers.Subsets (allSubsets'')
 import Math.NumberTheory.Powers.Fourth (isFourthPower')
 
 a328045 :: Integer -> Integer
@@ -11,7 +10,7 @@ a328045 n
   | isSquare n = n
   | agreesWithGraham n   = a300518 n + n
   | otherwise            = last $ head $ filter anyProductIsFourthPower candidateSequences where
-    candidateSequences = map (n:) $ allSubsets'' $ possibleBases n
+    candidateSequences = map (n:) $ subsequences $ possibleBases n
 
 a328045_list :: [Integer]
 a328045_list = map a328045 [0..]

@@ -1,6 +1,6 @@
 module Graham.A305677 (a305677) where
 import Graham.A321482 (a321482)
--- import Helpers.Subsets (allSubsets)
+-- import Data.List (subsequences)
 -- import HelperSequences.A007913 (a007913)
 
 -- This counts the number of subsets of [n + 1..a072905 n - 1] whose product has
@@ -10,7 +10,7 @@ import Graham.A321482 (a321482)
 -- bruteForce :: Integer -> Int
 -- bruteForce n = length $ hasSameSquarefreePart $ map a007913 allSubsetProducts where
 --   hasSameSquarefreePart = filter (== a007913 n)
---   allSubsetProducts = map product $ allSubsets [n + 1..a072905 n - 1]
+--   allSubsetProducts = map product $ subsequences [n + 1..a072905 n - 1]
 --
 -- (!!) This does not work if A305677(n) = 0.
 a305677 :: Integer -> Integer

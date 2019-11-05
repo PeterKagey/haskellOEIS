@@ -1,9 +1,9 @@
 import Graham.A269045 (a269045_list)
 import HelperSequences.A070229 (a070229)
 import Math.NumberTheory.Powers.Fourth (isFourthPower')
-import Helpers.Subsets (a048793_tabf,allSubsets)
+import Helpers.Subsets (a048793_tabf)
 import Helpers.SquareHelper (isSquare)
-import Data.List (find, nub)
+import Data.List (find, nub, subsequences)
 import Data.Maybe (fromJust)
 import Helpers.Primes (primeFactors, primePowers, uniquePrimeFactors, isPrime, properFactors, divisors)
 
@@ -20,7 +20,7 @@ baseCandidates n = filter (not . isInvalid) [n'+1..g_n-1] where
   isInvalid k = any (\p -> k - p < n' && k + p > g_n) unpairedPrimes where
     unpairedPrimes = map fst $ filter (\(_,p) -> p `mod` 2 == 1) $ primePowers $ fromIntegral k
 
-count n = map (\x -> prefix ++ x) $ allSubsets $ baseCandidates n where
+count n = map (\x -> prefix ++ x) $ subsequences $ baseCandidates n where
   n' = fromIntegral n
   prefix = nub [n', g_n]
   g_n = a328045_list !! n
