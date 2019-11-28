@@ -1,6 +1,7 @@
 module AlecAirport.A284916 (a284916) where
 import Data.List (find, nub)
 import Data.Set (Set, notMember, empty, insert, fromList)
+import Helpers.ListHelpers (allDistinct)
 -- Lexicographically earliest sequence of positive integers such that the same (Euclidean) distance does not occur twice between any two distinct pairs of points.
 
 a284916 n = map snd a284916_list !! (n - 1)
@@ -13,7 +14,7 @@ a284916_list = (0,1) : recurse 1 Data.Set.empty where
       noDuplicateDistances a_k = notEquidistantToTwoPoints && distinctDistance where
         newDistances' = newDistances a_k
         distinctDistance = all (`notMember` knownDistances) newDistances'
-        notEquidistantToTwoPoints = newDistances' == nub newDistances'
+        notEquidistantToTwoPoints = allDistinct newDistances'
 
 -- 1,1,2,5,9,14,7,19,25,2,33,43,54,67,27,47,64,78
 -- ALSO: Earliest such that (a(n) - a(m), n - m) is distinct for each pair (n, m) such that n != m.

@@ -1,5 +1,6 @@
-module Helpers.ListHelpers (concatReplicate, firstDifferences, reciprocalSum, runLengths, zipWithPadding) where
+module Helpers.ListHelpers (concatReplicate, firstDifferences, reciprocalSum, runLengths, zipWithPadding, allDistinct) where
 import Data.List (group)
+import Data.Set (empty, member, insert)
 -- concatReplicate is to replicate as concatMap is to map
 concatReplicate :: Int -> [a] -> [a]
 concatReplicate n list = take (n * length list) $ cycle list
@@ -23,6 +24,12 @@ firstDifferences :: Integral a => [a] -> [a]
 firstDifferences [] = []
 firstDifferences ls'@(_:ls) = zipWith (-) ls ls'
 
+allDistinct :: Ord a => [a] -> Bool
+allDistinct = recurse empty where
+  recurse seen [] = True
+  recurse seen (r:rs)
+    | r `member` seen = False
+    | otherwise       = recurse (r `insert` seen) rs
 -- minBy :: (a -> Int) -> [a] -> a
 -- minBy f (a:as) = recurse a as where
 --   recurse knownMin [] = knownMin

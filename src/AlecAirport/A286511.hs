@@ -2,6 +2,7 @@ module AlecAirport.A286511 (a286511_list, a286511) where
 import Data.Ratio ((%), Ratio)
 import Data.List (genericTake, nub, (\\))
 import Data.Set (Set, notMember, empty, insert)
+import Helpers.ListHelpers (allDistinct)
 
 -- Lexicographically earliest sequence such that for each pair of integers (i, j) with i > j
 -- the matrix [[i, a(i)], [j, a(j)]] has a distinct determinant.
@@ -18,7 +19,7 @@ uniqueDeterminantList = recurse 1 empty where
     newSlopes = foldr insert knownSlopes $ nextGenSlopes nextTerm
     nextGenSlopes a_i = map (metricFunction (i, a_i)) $ genericTake (i - 1) uniqueDeterminantList
     nextTerm = head $ filter notExistingSlope [1..] where
-      notExistingSlope a_i = all (`notMember` knownSlopes) nextGeneration && nub nextGeneration == nextGeneration where
+      notExistingSlope a_i = all (`notMember` knownSlopes) nextGeneration && allDistinct nextGeneration where
         nextGeneration = nextGenSlopes a_i
 
 metricFunction :: (Integer, Integer) -> (Integer, Integer) -> Integer
