@@ -1,4 +1,5 @@
 module Polynomial.A301802 (a301802) where
+import Data.List (subsequences)
 import Helpers.Polynomial (validTerms)
 
 a301802 :: Integer ->  Int
@@ -12,4 +13,5 @@ a301802_permutations n = recurse n [[]] where
 
 appendValidTerms :: Integer -> [Integer] -> [[Integer]]
 appendValidTerms k currentSequence = map (\i -> currentSequence ++ [i]) smallValidTerms where
-  smallValidTerms = takeWhile (<= k) $ validTerms currentSequence
+  valid = validTerms (tail . subsequences)
+  smallValidTerms = takeWhile (<= k) $ valid currentSequence
