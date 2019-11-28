@@ -1,7 +1,12 @@
+import Data.List (group, permutations)
 data Tree = Branch [Tree] | Leaf deriving (Eq, Show)
 
 type Forest    = [Tree]
+type Harvestable = Forest
+type OldGrowth   = Forest
+type Lumberyard  = (Harvestable, OldGrowth)
 type Partition = [Int]
+type Composition = [Int]
 
 fromParenthesis :: String -> Tree
 -- fromParenthesis "" = Leaf
@@ -40,18 +45,30 @@ takeOne (Branch subTrees) = subTrees
 
 takeFromTree :: Int -> Tree -> [Forest]
 takeFromTree n t = recurse n [([t], [])] where
-  recurse :: Int -> [(Forest, Forest)] -> [Forest]
+  recurse :: Int -> [Lumberyard] -> [Forest]
   recurse 0 f = map (uncurry (++)) f
   recurse n f = recurse (n - 1) (concatMap nextGen f)
 
 takeFromForest :: Int -> Forest -> [Forest]
 takeFromForest n forest = concatMap takeTree $ tailsAndInits forest where
-  takeTree :: (Forest, Forest) -> [Forest]
+  -- First forest can be harvested, second forest is old growth.
+  takeTree :: Lumberyard -> [Forest]
   takeTree (t:ts, is)
     | size t >= n = map (++ ts ++ is) $ takeFromTree n t
     | otherwise     = []
 
-nextGen :: (Forest, Forest) -> [(Forest, Forest)]
+takeFromForest' :: Int -> Forest -> [Lumberyard]
+takeFromForest' n forest = concatMap (takeFromFirstTreeInLumberyard n) $ tailsAndInits forest
+
+takeFromFirstTreeInLumberyard :: Int -> Lumberyard -> [Lumberyard]
+takeFromFirstTreeInLumberyard n (t:ts, is)
+  | size t >= n = map (\forest -> (forest ++ ts, is)) $ takeFromTree n t
+  | otherwise   = []
+
+takeFromLumberyard :: Int -> Lumberyard -> [Lumberyard]
+takeFromLumberyard n (harvestable, oldGrowths) = map (\(hs, os) -> (hs, os ++ oldGrowths)) $ takeFromForest' n harvestable
+
+nextGen :: Lumberyard -> [Lumberyard]
 nextGen (harvestable, oldGrowth) = map (\(t:ts, is) -> (takeOne t ++ ts, is ++ oldGrowth)) $ tailsAndInits harvestable
 
 tailsAndInits :: [a] -> [([a], [a])]
@@ -60,3 +77,17 @@ tailsAndInits as = recurse as [] where
   recurse :: [a] -> [a] -> [([a], [a])]
   recurse [] ts = [] -- [([], ts)]
   recurse is'@(i:is) ts = (is', ts) : recurse is (i:ts)
+
+partitionOrders :: Partition -> [Composition]
+partitionOrders = map concat . permutations . group
+
+treeDissectionCount :: Tree -> Partition -> Int
+treeDissectionCount t (p:ps) = recurse p ps [([t],[])] where
+  recurse :: Int -> Partition -> [Lumberyard] -> Int
+  recurse n [] lumberyards = length $ concatMap (takeFromLumberyard n) lumberyards
+  recurse n (c:cs) lumberyards
+    | n == c    = recurse c cs $ concatMap (takeFromLumberyard n) lumberyards
+    | otherwise = recurse c cs $ map (\(h, o) -> (h ++ o, [])) $ concatMap (takeFromLumberyard n) lumberyards
+
+treePartitionCount :: Tree -> Partition -> Int
+treePartitionCount t p = sum $ map (treeDissectionCount t) $ partitionOrders p
