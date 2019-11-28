@@ -1,11 +1,6 @@
-import Graham.A269045 (a269045_list)
-import HelperSequences.A070229 (a070229)
 import Math.NumberTheory.Powers.Fourth (isFourthPower')
-import Helpers.Subsets (a048793_tabf)
-import Helpers.SquareHelper (isSquare)
-import Data.List (find, nub, subsequences)
-import Data.Maybe (fromJust)
-import Helpers.Primes (primeFactors, primePowers, uniquePrimeFactors, isPrime, properFactors, divisors)
+import Data.List (nub, subsequences)
+import Helpers.Primes (primePowers)
 
 raiseUp' :: [Integer] -> [[(Integer, Int)]]
 raiseUp' = foldr (\a -> concatMap (\ts -> [(a, 1) : ts, (a, 2) : ts, (a, 3) : ts])) [[]]

@@ -1,5 +1,5 @@
 module Helpers.Heronian (Triangle, heronianTriangles, isIsosceles, isPrimitive,  primitiveIsoscelesHeronianTriangles) where
-import Helpers.SquareHelper (isSquare)
+import Math.NumberTheory.Powers.Squares (isSquare')
 type Triangle = (Integer, Integer, Integer)
 
 increasingSequences :: Integer -> [Triangle]
@@ -12,7 +12,7 @@ squareOfArea (a, b, c) = s * (s-a) * (s-b) * (s-c) where
   s = (a + b + c) `div` 2
 
 hasIntegerArea :: Triangle -> Bool
-hasIntegerArea = isSquare . squareOfArea
+hasIntegerArea = isSquare' . squareOfArea
 
 isValidTriangle :: Triangle -> Bool
 isValidTriangle (a, b, c) = a + b > c
