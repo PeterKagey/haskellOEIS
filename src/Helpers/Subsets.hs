@@ -1,5 +1,6 @@
-module Helpers.Subsets (oneIndexed, zeroIndexed, a048793_tabf) where
+module Helpers.Subsets (oneIndexed, zeroIndexed, a048793_tabf, combinations) where
 import Data.Bits ((.&.))
+import Data.List (tails)
 
 a048793_tabf :: [[Integer]]
 a048793_tabf = map (reverse . oneIndexed) [0..]
@@ -11,3 +12,13 @@ zeroIndexed :: Integer -> [Integer]
 zeroIndexed n = count n 0 where
   count 0 _ = []
   count m c = count (m `div` 2) (c + 1) ++ take (fromIntegral $ m .&. 1) [c]
+
+-- https://hackage.haskell.org/package/combinatorial-0.1.0.1/docs/Combinatorics.html#v:tuples
+combinations :: Int -> [a] -> [[a]]
+combinations =
+   let go r =
+         case compare r 0 of
+            LT -> const []
+            EQ -> const [[]]
+            GT -> concatMap (\(y:ys) -> map (y:) (go (r-1) ys)) . init . tails
+   in  go
