@@ -1,7 +1,7 @@
 module Graham.A280244 (a280244) where
 import Graham.A006255 (a006255)
 import Graham.A248663 (a248663)
-import Helpers.Primes (isPrime, uniquePrimeFactors)
+import Helpers.Primes (isPrime, distinctPrimeFactors)
 import Data.Bits (xor)
 import Data.List (sort, subsequences)
 

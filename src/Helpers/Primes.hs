@@ -1,4 +1,4 @@
-module Helpers.Primes (primeFactors, primePowers, uniquePrimeFactors, isPrime, properFactors, divisors) where
+module Helpers.Primes (primeFactors, primePowers, distinctPrimeFactors, isPrime, properFactors, divisors) where
 import Data.List (group, nub, sort)
 import Control.Arrow ((&&&))
 import HelperSequences.A000040 (a000040_list)
@@ -21,8 +21,8 @@ primeFactors n = a238689_row n
 primePowers :: Integer -> [(Integer, Int)]
 primePowers = map (head &&& length) . group . sort . primeFactors
 
-uniquePrimeFactors :: Integer -> [Integer]
-uniquePrimeFactors = nub . primeFactors
+distinctPrimeFactors :: Integer -> [Integer]
+distinctPrimeFactors = nub . primeFactors
 
 properFactors :: Integer -> [Integer]
 properFactors = drop 1 . properDivisors
