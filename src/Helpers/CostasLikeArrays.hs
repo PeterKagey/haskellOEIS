@@ -2,13 +2,9 @@ module Helpers.CostasLikeArrays (countPermutationsUpToDihedralSymmetry, distinct
 import Data.List (elemIndex, nub)
 import Data.Maybe (mapMaybe)
 import Data.Ratio ((%))
+import Helpers.Subsets (eachPair)
 
 type Permutation = [Int]
-
-eachPair :: [a] -> [(a, a)]
-eachPair [] = []
-eachPair (h:as) = map (\a -> (h, a)) as ++ eachPair as
-
 
 distinctDistances :: Permutation -> Int
 distinctDistances permutation = length $ nub $ map distanceSquare $ eachPair $ zip [0..] permutation where

@@ -1,5 +1,4 @@
-module Helpers.Factorials (binomial) where
-
+module Helpers.Factorials (binomial, factorial) where
 
 factorial :: Integral a => a -> a
 factorial n = factorial' n 1 where

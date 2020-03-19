@@ -1,4 +1,4 @@
-module Helpers.Subsets (oneIndexed, zeroIndexed, a048793_tabf, combinations) where
+module Helpers.Subsets (oneIndexed, zeroIndexed, a048793_tabf, combinations, eachPair) where
 import Data.Bits ((.&.))
 import Data.List (tails)
 
@@ -22,3 +22,8 @@ combinations =
             EQ -> const [[]]
             GT -> concatMap (\(y:ys) -> map (y:) (go (r-1) ys)) . init . tails
    in  go
+
+-- Similar to `combinations 2`
+eachPair :: [a] -> [(a, a)]
+eachPair [] = []
+eachPair (h:as) = map (\a -> (h, a)) as ++ eachPair as

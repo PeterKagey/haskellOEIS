@@ -1,7 +1,6 @@
 module HelperSequences.A032741 (a032741) where
-import Data.Bits ((.&.), shiftR)
-import Data.List (genericLength)
+import HelperSequences.A000005 (a000005)
 
--- This is a slow proof of concept.
-a032741 :: Integral a => a -> a
-a032741 n = genericLength $ filter (\k -> n `mod` k == 0) [1..n `div` 2]
+a032741 :: Integer -> Integer
+a032741 0 = 0
+a032741 n = a000005 n - 1

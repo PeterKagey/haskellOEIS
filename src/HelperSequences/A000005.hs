@@ -1,5 +1,5 @@
 module HelperSequences.A000005 (a000005) where
-import HelperSequences.A032741 (a032741)
+import Helpers.Primes (primePowers)
 
-a000005 :: Integral a => a -> a
-a000005 = (+ 1) . a032741
+a000005 :: Integer -> Integer
+a000005 n = product $ map ((+1) . fromIntegral . snd) $ primePowers n
