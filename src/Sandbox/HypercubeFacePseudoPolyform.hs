@@ -25,8 +25,8 @@ possibleRestrictions m facet = recurse $ Set.lookupGE (m, 0) facet where
 
 -- A set of all k-polyforms on the n-cube containing the seed facet.
 -- When k = 0, this should give the empty polyomino.
+allPseduoPolyforms :: Int -> Int -> Facet -> Set Polyform
 allPseduoPolyforms n k seedFacet = recurse k (Set.singleton seedFacet) (connectedFacets n seedFacet) where
-  recurse :: Int -> Polyform -> Set Facet -> Set Polyform
   recurse 0 polyform _ = Set.singleton Set.empty
   recurse 1 polyform _ = Set.singleton polyform
   recurse c polyform neighbors = flatMap f neighbors where
@@ -39,33 +39,32 @@ addToPolyform n facet (polyform, neighbors) = (newPolyform, updatedNeighbors) wh
 
 ------------------------------
 
--- i < j
-rotation i j (k, b)
-  | k == i    = (j, b)
-  | k == j    = (i, 1 - b)
-  | otherwise = (k, b)
-
-flipFirst (k, b)
-  | k == 1    = (k, 1 - b)
-  | otherwise = (k, b)
-
-rotation' :: Int -> Int -> Polyform -> Polyform
-rotation' i j = Set.map $ Set.map (rotation i j)
-
-flipFirst' :: Polyform -> Polyform
-flipFirst' = Set.map (Set.map flipFirst)
+rotation :: Int -> Int -> Polyform -> Polyform
+rotation i j = Set.map $ Set.map (rotate i j) where
+  rotate i j (k, b)
+    | k == i    = (j, b)
+    | k == j    = (i, 1 - b)
+    | otherwise = (k, b)
 
 
-allRotations n = [rotation' i j | i <- [1..n-1], j <- [i+1..n]]
-allRotations' n = [(i, j) | i <- [1..n-1], j <- [i+1..n]]
+flipFirst :: Polyform -> Polyform
+flipFirst = Set.map (Set.map flipFirst) where
+  flipFirst (k, b)
+    | k == 1    = (k, 1 - b)
+    | otherwise = (k, b)
 
+allRotations :: Int -> [Polyform -> Polyform]
+allRotations n = [rotation i j | i <- [1..n-1], j <- [i+1..n]]
+
+generateChildren :: Int -> Polyform -> Set Polyform
 generateChildren n polyform = recurse (allRotations n) flipped where
-  flipped = fromList [polyform, flipFirst' polyform]
+  flipped = fromList [polyform, flipFirst polyform]
   recurse [] symmetries = symmetries
   recurse (r:rs) symmetries = recurse rs s' where
     s' = Set.unions $ scanr (\_ b -> Set.map r b) symmetries [1..3]
 
 -- poly-m-facet with k cells
+countPolyominos :: Int -> Int -> Int -> Int
 countPolyominos n m k = recurse 0 $ allPseduoPolyforms n k (Set.fromList $ map (\i -> (i,0)) [1..n-m])where
   recurse c colorings
     | Set.null colorings = c
@@ -74,14 +73,13 @@ countPolyominos n m k = recurse 0 $ allPseduoPolyforms n k (Set.fromList $ map (
       children = generateChildren n $ minimum colorings
 
 -- poly-m-facet with k cells
-countPolyominos' n m k = recurse $ allPseduoPolyforms n k (Set.fromList $ map (\i -> (i,0)) [1..n-m])where
+enumeratePolyominos :: Int -> Int -> Int -> [Polyform]
+enumeratePolyominos n m k = recurse $ allPseduoPolyforms n k (Set.fromList $ map (\i -> (i,0)) [1..n-m])where
   recurse colorings
     | Set.null colorings = []
     | otherwise          = minimum colorings : recurse colorings' where
     colorings' = Set.difference colorings children where
       children = generateChildren n $ minimum colorings
-
--------------------
 
 flatMap :: (Ord a, Ord b) => (a -> Set b) -> Set a -> Set b
 flatMap f s = Set.foldr Set.union Set.empty (Set.map f s)

@@ -10,22 +10,45 @@ type Face        = Set Restriction
 type Coloring    = Set Face
 type Polyform    = Coloring
 
+countRestrictedColorings :: Int -> Int -> Int -> Set Coloring -> Int
+countRestrictedColorings n m k = recurse 0 where
+  recurse c colorings
+    | Set.null colorings = c
+    | otherwise          = recurse (c + 1) colorings' where
+    colorings' = Set.difference colorings children where
+      children = allSymmetries n $ minimum colorings
+
+allSymmetries :: Int -> Polyform -> Set Polyform
+allSymmetries n polyform = recurse (allRotations n) flipped where
+  flipped = Set.fromList [polyform, flipFirst polyform]
+  recurse [] symmetries = symmetries
+  recurse (r:rs) symmetries = recurse rs s' where
+    s' = Set.unions $ scanr (\_ b -> Set.map r b) symmetries [1..3]
+
+allRotations :: Int -> [Polyform -> Polyform]
+allRotations n = [rotation i j | i <- [1..n-1], j <- [i+1..n]]
+
+rotation :: Int -> Int -> Polyform -> Polyform
+rotation i j = Set.map $ Set.map (rotate i j) where
+  rotate i j (k, b)
+    | k == i    = (j, b)
+    | k == j    = (i, 1 - b)
+    | otherwise = (k, b)
+
+flipFirst :: Polyform -> Polyform
+flipFirst = Set.map (Set.map mirror) where
+  mirror (k, b)
+    | k == 1    = (k, 1 - b)
+    | otherwise = (k, b)
+
+---------------------------
 flatMap :: (Ord a, Ord b) => (a -> Set b) -> Set a -> Set b
 flatMap f s = Set.foldr Set.union Set.empty (Set.map f s)
 
--- memoize this
-connectedFacets :: Int -> Face -> Set Face
-connectedFacets n facet = flatMap replaceFacet oneDeleted where
-  newRestrictions = concatMap (`possibleRestrictions` facet) [1..n]
-  oneDeleted = Set.map (`Set.delete` facet) facet
-  replaceFacet f = Set.fromList $ map (`Set.insert` f) newRestrictions
-
-possibleRestrictions :: Int -> Face -> [Restriction]
-possibleRestrictions m facet = recurse $ Set.lookupGE (m, 0) facet where
-  recurse Nothing = [(m, 0), (m, 1)]
-  recurse (Just r@(n, _))
-    | n == m    = []
-    | otherwise = [(m, 0), (m, 1)]
+-- poly-m-facet with k cells on an n-cube
+countPolyforms :: Int -> Int -> Int -> Int
+countPolyforms n m k = countRestrictedColorings n m k fixedPolyforms where
+  fixedPolyforms = allPolyforms n k (Set.fromList $ map (\i -> (i,0)) [1..n-m])
 
 -- A set of all k-polyforms on the n-cube containing the seed facet.
 -- When k = 0, this should give the empty polyomino.
@@ -41,48 +64,28 @@ addToPolyform n facet (polyform, neighbors) = (newPolyform, updatedNeighbors) wh
   newPolyform      = Set.insert facet polyform
   updatedNeighbors = Set.union neighbors (connectedFacets n facet) Set.\\ newPolyform
 
--- i < j
-rotation :: Int -> Int -> (Int, Int) -> (Int, Int)
-rotation i j (k, b)
-  | k == i    = (j, b)
-  | k == j    = (i, 1 - b)
-  | otherwise = (k, b)
+-- memoize this
+connectedFacets :: Int -> Face -> Set Face
+connectedFacets n facet = flatMap replaceFacet oneDeleted where
+  newRestrictions = concatMap (`possibleRestrictions` facet) [1..n]
+  oneDeleted = Set.map (`Set.delete` facet) facet
+  replaceFacet f = Set.fromList $ map (`Set.insert` f) newRestrictions
 
-flipFirst :: (Int, Int) -> (Int, Int)
-flipFirst (k, b)
-  | k == 1    = (k, 1 - b)
-  | otherwise = (k, b)
-
-rotation' :: Int -> Int -> Polyform -> Polyform
-rotation' i j = Set.map $ Set.map (rotation i j)
-
-flipFirst' :: Polyform -> Polyform
-flipFirst' = Set.map (Set.map flipFirst)
-
-allRotations :: Int -> [Polyform -> Polyform]
-allRotations n = [rotation' i j | i <- [1..n-1], j <- [i+1..n]]
-
-allSymmetries :: Int -> Polyform -> Set Polyform
-allSymmetries n polyform = recurse (allRotations n) flipped where
-  flipped = Set.fromList [polyform, flipFirst' polyform]
-  recurse [] symmetries = symmetries
-  recurse (r:rs) symmetries = recurse rs s' where
-    s' = Set.unions $ scanr (\_ b -> Set.map r b) symmetries [1..3]
-
--- poly-m-facet with k cells on an n-cube
-countPolyforms :: Int -> Int -> Int -> Int
-countPolyforms n m k = countRestrictedColorings n m k fixedPolyforms where
-  fixedPolyforms = allPolyforms n k (Set.fromList $ map (\i -> (i,0)) [1..n-m])
-
-countRestrictedColorings :: Int -> Int -> Int -> Set Coloring -> Int
-countRestrictedColorings n m k = recurse 0 where
-  recurse c colorings
-    | Set.null colorings = c
-    | otherwise          = recurse (c + 1) colorings' where
-    colorings' = Set.difference colorings children where
-      children = allSymmetries n $ minimum colorings
+possibleRestrictions :: Int -> Face -> [Restriction]
+possibleRestrictions m facet = recurse $ Set.lookupGE (m, 0) facet where
+  recurse Nothing = [(m, 0), (m, 1)]
+  recurse (Just r@(n, _))
+    | n == m    = []
+    | otherwise = [(m, 0), (m, 1)]
 
 -----------------------------
+-- General colorings
+
+countColorings :: Int -> Int -> Int -> Int
+countColorings n m k = countRestrictedColorings n m k $ fixedColorings n m k
+
+fixedColorings :: Int -> Int -> Int -> Set Coloring
+fixedColorings n m k = Set.fromList $ map Set.fromList $ choose k $ allFaces n m
 
 allFaces :: Int -> Int -> [Face]
 allFaces n m = concatMap wreath $ choose (n - m) [1..n] where
@@ -90,9 +93,3 @@ allFaces n m = concatMap wreath $ choose (n - m) [1..n] where
   wreath (l:ls) = zeroRestriction ++ oneRestriction where
     zeroRestriction = map (Set.insert (l,0)) $ wreath ls
     oneRestriction = map (Set.insert (l,1)) $ wreath ls
-
-fixedColorings :: Int -> Int -> Int -> Set Coloring
-fixedColorings n m k = Set.fromList $ map Set.fromList $ choose k $ allFaces n m
-
-countColorings :: Int -> Int -> Int -> Int
-countColorings n m k = countRestrictedColorings n m k $ fixedColorings n m k
