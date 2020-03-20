@@ -1,4 +1,4 @@
-module Helpers.Subsets (oneIndexed, zeroIndexed, a048793_tabf, combinations, eachPair) where
+module Helpers.Subsets (oneIndexed, zeroIndexed, a048793_tabf, combinations, eachPair, choose) where
 import Data.Bits ((.&.))
 import Data.List (tails)
 
@@ -27,3 +27,9 @@ combinations =
 eachPair :: [a] -> [(a, a)]
 eachPair [] = []
 eachPair (h:as) = map (\a -> (h, a)) as ++ eachPair as
+
+choose 0 _ = [[]]
+choose _ [] = []
+choose n (x:xs) =
+    [x : subs | subs <- choose (n-1) xs]
+    ++ choose n xs

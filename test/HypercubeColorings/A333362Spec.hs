@@ -1,6 +1,6 @@
-module HypercubePolyforms.A333362Spec (main, spec) where
+module HypercubeColorings.A333362Spec (main, spec) where
 import Test.Hspec
-import HypercubePolyforms.A333362 (a333362)
+import HypercubeColorings.A333362 (a333362)
 
 main :: IO ()
 main = hspec spec
