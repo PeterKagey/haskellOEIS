@@ -10,7 +10,7 @@ flatMap f s = Set.foldr Set.union Set.empty (Set.map f s)
 
 children :: BrickStack -> Set BrickStack
 children brickStack = Set.union nw ne where
-    nw = flatMap (\(a,b) -> f (a, b+1)) brickStack
+    nw = flatMap (\(a,b) -> f (a+1, b)) brickStack
     ne = flatMap (\(a,b) -> f (a+1, b+1)) brickStack
     f (x, y)
         | Set.member (x, y) brickStack = Set.empty
@@ -19,7 +19,7 @@ children brickStack = Set.union nw ne where
 nextGeneration :: Int -> Set BrickStack -> Set BrickStack
 nextGeneration n currentGeneration = Set.insert base recurse where
     recurse = flatMap children currentGeneration
-    base = Set.fromList [(i,0) | i <- [0..n-1]]
+    base = Set.fromList [(0,i) | i <- [0..n-1]]
 
 generations :: [Set BrickStack]
 generations = recurse 2 seed where
@@ -27,12 +27,12 @@ generations = recurse 2 seed where
     recurse n row = row : recurse (n + 1) (nextGeneration n row)
 
 height :: BrickStack -> Int
-height brickStack = Set.findMax $ Set.map snd brickStack
+height = (+1) . fst . Set.findMax
 
 -- Note: this is a kind of slow way to compute a histogram.
 a333650_row :: Int -> [Int]
 a333650_row n = map (\i -> length $ elemIndices i x) [1..n] where
-    x = map ((+1) . height) $ Set.toList $ generations !! (n-1)
+    x = map height $ Set.toList $ generations !! (n-1)
 
 a333650_rows :: [[Int]]
 a333650_rows = map a333650_row [1..]
