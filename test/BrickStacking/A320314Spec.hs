@@ -1,6 +1,6 @@
-module Miscellaneous.A320314Spec (main, spec) where
+module BrickStacking.A320314Spec (main, spec) where
 import Test.Hspec
-import Miscellaneous.A320314 (a320314)
+import BrickStacking.A320314 (a320314)
 
 main :: IO ()
 main = hspec spec

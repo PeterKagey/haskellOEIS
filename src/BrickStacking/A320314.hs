@@ -1,4 +1,4 @@
-module Miscellaneous.A320314 where
+module BrickStacking.A320314 where
 import Data.List (nub, sort)
 
 type Row = [Int]
