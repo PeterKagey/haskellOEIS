@@ -1,6 +1,4 @@
-import Data.Maybe
-import Helpers.Table (n_k, n'_k')
-import Data.Set (Set, empty, insert, singleton)
+import Data.Set (Set, insert, singleton)
 -- See TorusLatticeWalk.hs, this is mostly copied and pasted from there with
 -- some changes to nextStatesRight and nextStatesUp
 

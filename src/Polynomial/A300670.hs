@@ -1,14 +1,14 @@
 module Polynomial.A300670 (a300670, a300670_list) where
 import Helpers.Polynomial (polynomialAvoidingSequence)
 import Data.List (genericTake)
-import Helpers.Table (n_k)
+import Helpers.Table (tableByAntidiagonals)
 import Helpers.Subsets (combinations)
 
 a300670 :: Int -> Integer
 a300670 n = a300670_list !! (n - 1)
 
 a300670_list :: [Integer]
-a300670_list = map (findEntry . n_k) [0..] where
+a300670_list = map (findEntry . tableByAntidiagonals) [0..] where
   findEntry (k, n) = a300670_rows !! n !! k
 
 a300670_row :: Int -> [Integer]

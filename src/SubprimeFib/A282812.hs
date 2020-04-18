@@ -1,5 +1,6 @@
 module SubprimeFib.A282812 (a282812) where
-import Helpers.Table (n_k)
+import Helpers.Table (tableByAntidiagonals)
 import Helpers.SubprimeFib (largestValue)
 
-a282812 n = case n_k (n - 1) of (a, b) -> largestValue (a + 1) (b + 1)
+a282812 n = largestValue (n' + 1) (k' + 1) where
+    (n', k') = tableByAntidiagonals (n - 1)

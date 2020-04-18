@@ -1,9 +1,10 @@
 module External.A007318 (a007318) where
 import Helpers.ChessSequences (chessMoveCounter, kingN, kingW)
-import Helpers.Table (n_k)
+import Helpers.Table (tableByAntidiagonals)
 
 a007318 :: Integer -> Integer
-a007318 n = case n_k n of (n', k') -> a007318T  (n' + 1) (k' + 1)
+a007318 n = a007318T  (n' + 1) (k' + 1) where
+    (n', k') = tableByAntidiagonals n
 
 -- Longest chain is given by A002024
 -- Slow implementation of Pascal's triangle.

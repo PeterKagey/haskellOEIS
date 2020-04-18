@@ -1,6 +1,7 @@
 module Tables.A301851 where
 import Helpers.DistinctDistances (distinctDistances)
-import Helpers.Table (n_k)
+import Helpers.Table (tableByAntidiagonals)
 
 a301851 :: Integer -> Int
-a301851 n = case n_k (n - 1) of (i, j) -> distinctDistances (i + 1) (j + 1)
+a301851 n = distinctDistances (n' + 1) (k' + 1) where
+    (n', k') = tableByAntidiagonals (n - 1)

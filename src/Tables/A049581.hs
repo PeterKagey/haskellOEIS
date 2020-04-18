@@ -1,6 +1,6 @@
 module Tables.A049581 (a049581) where
-import Helpers.Table (n_k)
+import Helpers.Table (tableByAntidiagonals)
 
 a049581 :: Int -> Int
 a049581 i = abs (n - k) where
-  (n, k) = n_k i
+  (n, k) = tableByAntidiagonals i

@@ -1,13 +1,13 @@
 module DoubleOrIncrement.A304027 where
-import Helpers.Table (n_k, n'_k')
+import Helpers.Table (triangleByRows)
 import Helpers.DoubleOrIncrement (numberOfGenerations, numberOfPaths)
 
 a304027 :: Integer -> Int
-a304027 = numberOfGenerations . n'_k'
+a304027 = numberOfGenerations . triangleByRows
 
 -- Table read by rows: T(n, k) is the minimum number m such that (m, m) can be reached from A304027(n, k) applications of either (x, y) -> (x + 1, 2*y) or (x, y) -> (2*x, y + 1), where 0 <= k <= n.
 a316232 :: Integer -> Integer
-a316232 = numberOfPaths . n'_k'
+a316232 = numberOfPaths . triangleByRows
 --
 -- Table begins:
 --   n\k|    0    1    2    3    4    5    6    7

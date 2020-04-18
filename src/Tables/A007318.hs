@@ -1,6 +1,5 @@
 module Tables.A007318 (a007318, a007318_row, a007318_tabl) where
 import Data.List (genericIndex)
-import Helpers.Table (n'_k')
 import Helpers.Factorials (binomial)
 
 a007318 :: Integral a => a -> a

@@ -1,5 +1,5 @@
 module Miscellaneous.A293030  where
-import Helpers.Table (n_k)
+import Helpers.Table (tableByAntidiagonals)
 import Data.Set (Set, empty, insert, notMember)
 --   a(n, 1) is the least positive integer not in a previous row.
 -- This sequence is a permutation of the natural numbers.
@@ -19,7 +19,7 @@ import Data.Set (Set, empty, insert, notMember)
 -- 1,3,8,22,24,65,70,72,194,208,210,215,580,582,623,628,630,644,1738,1740,1745,1867,1869,1883,1888,1890,1931,5212,5214,5219,5233,5235,5600,5605,5607,5648,5662,5664,5669,5791,5793,15635,15640,15642,15656,15697,15699,15704,16798,16800,16814,16819,16821,16943,16984,16986,16991,17005,17007,17372,17377,17379,46904,46918,46920,46925,46966,46968,47090,47095,47097,47111,50392,50394,50399,50440,50442,50456,50461,50463,50828,50950,50952,50957,50971,50973,51014,51019,51021,52115,52129,52131,52136
 a293030 :: Int -> Int
 a293030 t = a293030_rows !! k !! n where
-  (n, k) = n_k (t - 1)
+  (n, k) = tableByAntidiagonals (t - 1)
 
 a293030_rows :: [[Int]]
 a293030_rows = recurse 1 [1..] where

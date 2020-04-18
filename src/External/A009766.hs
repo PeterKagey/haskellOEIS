@@ -1,9 +1,10 @@
 module External.A009766 (a009766) where
 import Helpers.ChessSequences (chessMoveCounter, kingN, kingSW)
-import Helpers.Table (n_k)
+import Helpers.Table (tableByAntidiagonals)
 
 a009766 :: Integer -> Integer
-a009766 n = case n_k n of (n', k') -> a009766T  (n' + 1) (k' + 1)
+a009766 n = a009766T  (n' + 1) (k' + 1) where
+    (n', k') = tableByAntidiagonals n
 
 -- Longest chain is given by A094727.
 a009766T :: Integer -> Integer -> Integer

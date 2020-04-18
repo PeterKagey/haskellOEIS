@@ -1,9 +1,10 @@
 module Chess.A334016 (a334016) where
 import Helpers.ChessSequences (chessMoveCounter, queenN, queenNW, queenSW)
-import Helpers.Table (n_k)
+import Helpers.Table (tableByAntidiagonals)
 
 a334016 :: Integer -> Integer
-a334016 n = case n_k (n - 1) of (n', k') -> a334016T  (n' + 1) (k' + 1)
+a334016 n = a334016T (n' + 1) (k' + 1) where
+    (n', k') = tableByAntidiagonals (n - 1)
 
 -- Longest chain is given by A094727.
 -- King analog: A071945

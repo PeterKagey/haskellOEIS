@@ -1,5 +1,5 @@
 module Tables.A284486 (a284486, a284486_list) where
-import Helpers.Table (n_k)
+import Helpers.Table (tableByAntidiagonals)
 import Data.Ratio ((%))
 import Data.List (groupBy, sort, partition)
 
@@ -18,7 +18,9 @@ a284486_list = f 0 where
       knownSeq = groupByGridValue $ take index a284486_list
 
 pairs :: [(Integer, Integer)]
-pairs = map (\i -> case n_k i of (a, b) -> (a + 1, b + 1)) [0..]
+pairs = map antidiagonalPairs [0..] where
+  antidiagonalPairs i = (a + 1, b + 1) where
+    (a, b) = tableByAntidiagonals i
 
 -- Check if the slope of any two tuples is equal.
 -- e.g. (3, 7), (1, 6), (7, 9):

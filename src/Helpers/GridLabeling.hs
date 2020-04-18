@@ -1,9 +1,9 @@
 module Helpers.GridLabeling (pairs, onALine, onLine, everyPair) where
-import Helpers.Table (n_k)
+import Helpers.Table (tableByAntidiagonals)
 import Data.Ratio ((%))
 
 pairs :: [(Integer, Integer)]
-pairs = map n_k [0..]
+pairs = map tableByAntidiagonals [0..]
 
 -- Check if the slope of any two tuples is equal.
 -- e.g. (3, 7), (1, 6), (7, 9):
