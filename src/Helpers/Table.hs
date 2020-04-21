@@ -1,4 +1,4 @@
-module Helpers.Table (tableByAntidiagonals, triangleByRows, indicesByAntidiagonals) where
+module Helpers.Table (tableByAntidiagonals, triangleByRows, indicesByAntidiagonals, triangularize, antidiagonalize) where
 import HelperSequences.A025581 (a025581)
 import HelperSequences.A002262 (a002262)
 import Data.List (transpose)
@@ -21,16 +21,19 @@ triangleByRows i = (n + k, k) where
 -- (0,0),(1,0),(0,1),(2,0),(1,1),(0,2),(3,0),(2,1),(1,2),(0,3)
 --------------------------------------------------------------
 -- (0,0),(0,1),(0,2),(0,3)
--- (1,0),(1,1),(1,2),
--- (2,0),(2,1),
--- (3,0),
+-- (1,0),(1,1),(1,2)
+-- (2,0),(2,1)
+-- (3,0)
 indicesByAntidiagonals :: Integral a => [(a, a)]
 indicesByAntidiagonals = recurse (0,0) where
   recurse i@(0, a) = i : recurse (a + 1, 0)
   recurse i@(a, b) = i : recurse (a - 1, b + 1)
 
 -- https://stackoverflow.com/a/61263204/3512049
+antidiagonalize :: [a] -> [[a]]
+antidiagonalize = transpose . transpose . triangularize
+
 triangularize :: [a] -> [[a]]
-triangularize = transpose . transpose . recurse 0 where
+triangularize = recurse 0 where
   recurse n [] = []
   recurse n as = b : recurse (n+1) e where (b,e) = splitAt n as
