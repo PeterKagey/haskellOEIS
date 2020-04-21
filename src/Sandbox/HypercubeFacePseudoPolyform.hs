@@ -1,6 +1,7 @@
 import Data.Set (Set, fromList, lookupGE, singleton)
 import Data.List (delete)
 import qualified Data.Set as Set
+import Helpers.SetHelpers (flatMap)
 
 -- This counts PSEUDO-polyforms where faces may meet at a vertex, even if they don't meet at an m-face!
 
@@ -80,6 +81,3 @@ enumeratePolyominos n m k = recurse $ allPseduoPolyforms n k (Set.fromList $ map
     | otherwise          = minimum colorings : recurse colorings' where
     colorings' = Set.difference colorings children where
       children = generateChildren n $ minimum colorings
-
-flatMap :: (Ord a, Ord b) => (a -> Set b) -> Set a -> Set b
-flatMap f s = Set.foldr Set.union Set.empty (Set.map f s)

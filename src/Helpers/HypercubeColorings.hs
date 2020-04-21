@@ -1,5 +1,6 @@
 module Helpers.HypercubeColorings (countPolyforms, countColorings) where
 import Helpers.Subsets (choose)
+import Helpers.SetHelpers (flatMap)
 import Data.Set (Set)
 import qualified Data.Set as Set
 
@@ -42,8 +43,6 @@ flipFirst = Set.map (Set.map mirror) where
     | otherwise = (k, b)
 
 ---------------------------
-flatMap :: (Ord a, Ord b) => (a -> Set b) -> Set a -> Set b
-flatMap f s = Set.foldr Set.union Set.empty (Set.map f s)
 
 -- poly-m-facet with k cells on an n-cube
 countPolyforms :: Int -> Int -> Int -> Int

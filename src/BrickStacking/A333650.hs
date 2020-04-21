@@ -2,11 +2,9 @@ module BrickStacking.A333650 (a333650) where
 import Data.Set (Set)
 import qualified Data.Set as Set
 import Data.List (elemIndices)
+import Helpers.SetHelpers (flatMap)
 
 type BrickStack = Set (Int, Int)
-
-flatMap :: (Ord a, Ord b) => (a -> Set b) -> Set a -> Set b
-flatMap f s = Set.foldr Set.union Set.empty (Set.map f s)
 
 children :: BrickStack -> Set BrickStack
 children brickStack = Set.union nw ne where
