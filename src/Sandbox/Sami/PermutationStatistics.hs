@@ -35,6 +35,18 @@ largestCycle = maximum . cycleSizes
 shortestCycle :: Permutation -> Int
 shortestCycle = minimum . cycleSizes
 
+cycleStructure :: Permutation -> String
+cycleStructure p = "(" ++ recurse 1 (fromList [1..length p]) where
+  recurse x unseen
+    | null unseen       = ")"
+    | x `member` unseen = show x ++ recurse (p !! (x - 1)) (delete x unseen)
+    | otherwise         = ")(" ++ recurse (minimum unseen) unseen
+
+lengthOfFirstCycle :: Permutation -> Int
+lengthOfFirstCycle p = recurse 1 (head p) where
+  recurse c 1  = c
+  recurse c p' = recurse (c + 1)  (p !! (p' - 1))
+
 cycleSizes :: Permutation -> [Int]
 cycleSizes p = sort $ recurse 1 0 [] $ fromList [1..length p] where
   recurse x c sizes unseen

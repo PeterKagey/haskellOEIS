@@ -1,6 +1,5 @@
 import Data.List (permutations)
 import Data.MemoCombinators (memo2, integral)
-import Helpers.Table (n_k)
 
 type Permutation = [Int]
 
