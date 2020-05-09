@@ -5,6 +5,7 @@ import Data.MemoCombinators (memo2, integral)
 a330858T :: Integer -> Integer -> Integer
 a330858T = memo2 integral integral a330858T' where
   a330858T' n k
+    | n == 0    = 1
     | n <= k    = product [1..n]
     | otherwise = n * a330858T (n-1) k - a068424T (n-1) k * a330858T (n-k-1) k
 
