@@ -19,5 +19,3 @@ a024610_list = recurse 1 0 a003136_list where
 
 a024610 :: Int -> Int
 a024610 = (!!) a024610_list
-
--- a328793 n

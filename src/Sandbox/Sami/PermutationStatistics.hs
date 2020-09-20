@@ -93,6 +93,7 @@ firstLetterKCycles' k       = firstStatistic ((==1) . numberOfKCycles k) -- Tabl
 firstLetterKCycles'' k       = firstStatistic ((==k) . numberOfKCycles 4)
 -- firstLetterTwoCycles k      = firstStatistic ((==[k, n-k]) . cycleSizes) -- Table III
 firstLetterLargestCycle k   = firstStatistic ((==k) . largestCycle)      -- Table VI
+firstLetterLargestCycle' k   = firstStatistic ((<=k) . largestCycle)
 firstLetterShortestCycle k  = firstStatistic ((==k) . shortestCycle)     -- Table I
 firstLetterShortestCycle' k = firstStatistic ((>=k) . shortestCycle)     -- Table II
 firstLetterInversion k      = firstStatistic ((==k) . inversionNumber)   -- Table V
