@@ -1,4 +1,4 @@
-module Helpers.ListHelpers (concatReplicate, firstDifferences, reciprocalSum, runLengths, zipWithPadding, allDistinct) where
+module Helpers.ListHelpers (allDistinct, cartesianProduct, concatReplicate, firstDifferences, reciprocalSum, runLengths, zipWithPadding) where
 import Data.List (group)
 import Data.Set (empty, member, insert)
 -- concatReplicate is to replicate as concatMap is to map
@@ -30,6 +30,12 @@ allDistinct = recurse empty where
   recurse seen (r:rs)
     | r `member` seen = False
     | otherwise       = recurse (r `insert` seen) rs
+
+cartesianProduct 0 _        = []
+cartesianProduct 1 elements = map (:[]) elements
+cartesianProduct n elements = concatMap f $ cartesianProduct (n - 1) elements where
+    f es = map (:es) elements
+
 -- minBy :: (a -> Int) -> [a] -> a
 -- minBy f (a:as) = recurse a as where
 --   recurse knownMin [] = knownMin

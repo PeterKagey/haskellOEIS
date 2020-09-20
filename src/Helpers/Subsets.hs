@@ -1,4 +1,4 @@
-module Helpers.Subsets (oneIndexed, zeroIndexed, a048793_tabf, combinations, eachPair, choose) where
+module Helpers.Subsets (allSubsets, oneIndexed, zeroIndexed, a048793_tabf, combinations, eachPair, choose) where
 import Data.Bits ((.&.))
 import Data.List (tails)
 
@@ -23,6 +23,10 @@ combinations =
             GT -> concatMap (\(y:ys) -> map (y:) (go (r-1) ys)) . init . tails
    in  go
 
+-- Surely there's a better implementation?
+allSubsets :: [a] -> [[a]]
+allSubsets []  = [[]]
+allSubsets (x:xs) = allSubsets xs ++ map (x:) (allSubsets xs)
 -- Similar to `combinations 2`
 eachPair :: [a] -> [(a, a)]
 eachPair [] = []
