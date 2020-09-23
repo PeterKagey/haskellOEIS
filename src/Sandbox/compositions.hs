@@ -24,3 +24,11 @@ a135859 n = f n 3 -- Number of binary 3 X (n-1) matrices such that each row and 
 -- 5 26 136 712  3728  19520 102208 535168 2802176 14672384
 -- 6 37 229 1418 8781  54377 336734 2085253 12913101 79965442
 -- 7 50 358 2564 18364 131528 942040 6747152 48324976 346116896
+
+a337243order c1 c2
+  | sum c1 < sum c2       = LT
+  | sum c1 > sum c2       = GT
+  | length c1 < length c2 = LT
+  | length c1 > length c2 = GT
+  | otherwise = compare (reverse c1) (reverse c2)
+
