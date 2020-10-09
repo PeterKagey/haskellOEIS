@@ -1,4 +1,4 @@
-module Helpers.Delahaye (column, delahayeList, rowTable, antidiagonalTable) where
+module Helpers.Delahaye (column, delahayeList, rowTable, antidiagonalTable, missingFromTables) where
 import Data.Set (Set)
 import qualified Data.Set as Set
 import Helpers.Table (tableByAntidiagonals, triangleByRows)
@@ -14,10 +14,16 @@ delahayeList k initialTable isValidExtension updateTable = thisList where
       nextTerm = head $ filter (isValidExtension knownTerms table) [maximum knownTerms + 1 ..]
 
 column :: (Integer -> Integer -> Integer) -> [Integer] -> Integer -> Set Integer
-column f knownTerms k = Set.fromList (f k k : map (f k) knownTerms)
+column f knownTerms k = Set.fromList (map (f k) (k:knownTerms))
 
 rowTable :: (Integer -> Integer -> Integer) -> (Int -> Integer) -> [Integer]
 rowTable f aNumber = map ((\(i, j) -> f (aNumber (i + 1)) (aNumber (j + 1))) . triangleByRows) [0..]
 
 antidiagonalTable :: (Integer -> Integer -> Integer) -> (Int -> Integer) -> [Integer]
 antidiagonalTable f aNumber = map ((\(i, j) -> f (aNumber (i + 1)) (aNumber (j + 1))) . tableByAntidiagonals) [0..]
+
+missingFromTables :: [Integer -> Integer -> Integer] -> [Integer] -> [Integer]
+missingFromTables operations sequence = recurse 1 sequence Set.empty [] where
+  recurse lower (n:ns) table knownTerms = newValues ++ recurse n ns table' (n:knownTerms) where
+    table' = foldr1 Set.union (table : map (\f -> column f knownTerms n) operations)
+    newValues = Set.toAscList $ Set.difference (Set.fromList [lower..n-1]) table
