@@ -34,6 +34,6 @@ antidiagonalize :: [a] -> [[a]]
 antidiagonalize = transpose . transpose . triangularize
 
 triangularize :: [a] -> [[a]]
-triangularize = recurse 0 where
+triangularize = recurse 1 where
   recurse n [] = []
   recurse n as = b : recurse (n+1) e where (b,e) = splitAt n as
