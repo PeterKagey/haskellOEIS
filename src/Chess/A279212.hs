@@ -3,7 +3,7 @@ import Helpers.ChessSequences (chessMoveCounter, queenN, queenNW, queenW, queenS
 import Helpers.Table (tableByAntidiagonals)
 
 a279212 :: Integer -> Integer
-a279212 n = a279212T  (n' + 1) (k' + 1) where
+a279212 n = a279212T (n' + 1) (k' + 1) where
     (n', k') = tableByAntidiagonals (n - 1)
 
 -- Longest chain is given by A094727.
@@ -11,4 +11,3 @@ a279212 n = a279212T  (n' + 1) (k' + 1) where
 a279212T :: Integer -> Integer -> Integer
 a279212T = chessMoveCounter visibleCells where
     visibleCells n k = concatMap (\f -> f n k) [queenN, queenNW, queenW, queenSW]
-
