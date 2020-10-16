@@ -52,10 +52,10 @@ divisorsOfPolynomialOfDegree n = filter f [3..] where
 -- Numbers d such that there exists a degree d (1,0,-1)-polynomial that is
 -- always divisible by n.
 
--- (x^4 - x^2) is always divisble by 12.
+-- (x^4 - x^2) is always divisible by 12.
 -- (x^5 - x)   is always divisible by 30.
--- (x^6 - x^2) is always divisble by 60.
--- (x^7 - x^3) is always divisble by 120.
+-- (x^6 - x^2) is always divisible by 60.
+-- (x^7 - x^3) is always divisible by 120.
 -- (x^8 - x^2) is always divisible by 252. (4*7*9)
 -- (x^9 - x^3) is always divisible by 504. (7*8*9)
 -- (x^9 - x^7 - x^5 + x^3) is always divisible by 360.
