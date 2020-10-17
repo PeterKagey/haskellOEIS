@@ -1,13 +1,14 @@
-module Miscellaneous.BridgeCrossing where
+module Miscellaneous.A318271 (a318271) where
 import Data.List (delete)
+import HelperSequences.A026791 (a026791_row)
+import Helpers.Subsets (eachPair)
 
 type Position = ([Int], [Int])
 type ElapsedTime = Int
 data State = LeftFlash Position ElapsedTime | RightFlash Position ElapsedTime deriving Show
 
-eachPair :: [a] -> [(a, a)]
-eachPair [] = []
-eachPair (h:as) = map (\a -> (h, a)) as ++ eachPair as
+a318271 :: Int -> Int
+a318271 = minimumTime . a026791_row
 
 -- A brute force approach.
 -- It would be better if [1,1,1,1,...,1] didn't have so many redundant calculations.
@@ -19,10 +20,6 @@ minimumTime speeds = minimumTimeFromState $ LeftFlash (speeds, []) 0
 minimumTimeFromState :: State -> Int
 minimumTimeFromState (RightFlash ([], _) elapsedTime) = elapsedTime
 minimumTimeFromState state = minimum $ map minimumTimeFromState $ children state
-
-currentTime :: State -> Int
-currentTime (RightFlash _ time) = time
-currentTime (LeftFlash _ time) = time
 
 children :: State -> [State]
 children (RightFlash ([], _) _) = error "Nobody should cross!"
@@ -43,13 +40,3 @@ crossRight (RightFlash (left, right) elapsed) person = LeftFlash position newEla
   position = (newLeft, newRight) where
     newLeft = person : left
     newRight = delete person right
-
-a026791_rows :: [[Int]]
-a026791_rows = concatMap a026791_n [1..]
-
-a026791_n :: Int -> [[Int]]
-a026791_n 0 = [[]]
-a026791_n n = concatMap f [1..n] where
-  f k = map (k:) $ filter (all (>=k)) $ a026791_n (n - k)
-
-a318271_list = map minimumTime a026791_rows
