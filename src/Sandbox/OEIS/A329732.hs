@@ -1,6 +1,7 @@
 import Math.NumberTheory.Powers.Cubes (isCube')
 import Data.List (subsequences, delete)
-f n = last $ head $ filter (isCube' . product) $ map (n:) $ subsequences [n+1..]
+
+a329732 n = last $ head $ filter (isCube' . product) $ map (n:) $ subsequences [n+1..]
 
 g n k = filter (isCube' . product) $ map ([n,k]++) $ subsequences [n+1..k-1]
 
