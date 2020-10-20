@@ -16,5 +16,6 @@ recursion integerSequence = toList $ multStd inverseMatrix (solutionMatrix matri
 isRight (Right _) = True
 isRight (Left _) = False
 
--- Conjecture :
+-- Conjecture:
+-- A320099
 -- 103*a(n-1) + 1063*a(n-2) - 1873*a(n-3) - 20274*a(n-4) + 44071*a(n-5) - 10365*a(n-6) - 20208*a(n-7) + 5959*a(n-8) + 2300*a(n-9) - 500*a(n-10) # for n > 10

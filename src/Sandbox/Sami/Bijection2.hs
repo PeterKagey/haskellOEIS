@@ -33,7 +33,7 @@ phi k i pi = phi' $ rescale i pi where
     | i < head c1        = [i]:c1:cs
     | length c1 == k     = case c1 of (a1:a2:as) -> (a1:i:as) : phi k a2 cs
     | length c1 == k - 1 = p i $ psi k c1 cs
-    | otherwise           = p i pi'
+    | otherwise          = p i pi'
 
 psi :: Int -> Cycle -> CycleStructure -> CycleStructure
 psi k a's [] = [a's]

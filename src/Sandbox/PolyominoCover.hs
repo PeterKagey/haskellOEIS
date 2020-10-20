@@ -21,8 +21,8 @@ minima (p:ps) = foldr (\(x, y) (mx, my) -> (min x mx, min y my)) p ps
 
 translateToOrigin :: Polyomino -> Polyomino
 translateToOrigin p =
-    let (minx, miny) = minima p in
-        map (\(x, y) -> (x - minx, y - miny)) p
+    let (min_x, min_y) = minima p in
+        map (\(x, y) -> (x - min_x, y - min_y)) p
 
 rotate90, rotate180, rotate270, reflect :: Point -> Point
 rotate90  (x, y) = ( y, -x)

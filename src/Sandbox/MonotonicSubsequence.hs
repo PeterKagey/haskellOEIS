@@ -1,6 +1,9 @@
 import Data.List (tails)
 import Data.Ord (comparing)
 
+-- Length of the longest monotonic increasing subsequence of (a_1,a_2,...)
+-- that starts with a_1.
+longestMonotonicIncreasing :: (Num p, Ord p, Ord a) => [a] -> p
 longestMonotonicIncreasing [] = 0
 longestMonotonicIncreasing (x:xs) = recurse xs [(x, 1)] where
   recurse     [] known = maximum $ map snd known
@@ -9,6 +12,8 @@ longestMonotonicIncreasing (x:xs) = recurse xs [(x, 1)] where
    | otherwise = recurse ys ((y, 1 + newValue) : known) where
      newValue = maximum $ map snd $ filter (\(a, b) -> y >= a) known
 
+-- Length of the longest monotonic decreasing subsequence of (a_1,a_2,...)
+-- that starts with a_1.
 longestMonotonicDecreasing [] = 0
 longestMonotonicDecreasing (x:xs) = recurse xs [(x, 1)] where
   recurse     [] known = maximum $ map snd known
@@ -17,8 +22,10 @@ longestMonotonicDecreasing (x:xs) = recurse xs [(x, 1)] where
     | otherwise = recurse ys ((y, 1 + newValue) : known) where
       newValue = maximum $ map snd $ filter (\(a, b) -> y <= a) known
 
+-- Length of the longest monotonic subsequence of (a_1,a_2,...)
+-- that starts with a_1.
 longestMonotonic xs = longestMonotonicIncreasing xs `max` longestMonotonicDecreasing xs
 
-l_k permutation = sum $ map longestMonotonic $ tails permutation
-
--- Let w = (w_1, w_2, ..., w_n) be a permutation of the integers {1, 2, ..., n}, and let l_k(w) be the length of the longest monotone subsequence of (w_k, w_{k+1}, ..., w_n) starting with w_k. Then a(n) is the least value of sum_{k=1..n} l_k(w) as w ranges over all permutations in S_n.
+-- Length of the longest monotonic subsequence.
+longestMonotonic' :: (Num a, Ord a, Ord b) => [b] -> a
+longestMonotonic' = maximum . map longestMonotonic . tails

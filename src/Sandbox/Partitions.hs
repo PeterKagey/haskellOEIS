@@ -1,4 +1,5 @@
 module Sandbox.Partitions (Partition, partitionsWithMaxPart) where
+import Data.List (tails)
 
 type Partition = [Int]
 

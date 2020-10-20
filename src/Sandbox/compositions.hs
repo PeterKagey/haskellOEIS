@@ -1,9 +1,11 @@
+import Math.NumberTheory.Powers.Squares (exactSquareRoot)
+import Data.Foldable
 compositions :: Int -> [[Int]]
 compositions 0 = [[]]
 compositions n = concatMap (\k -> map (k:) $ compositions (n-k)) [1..n]
 
 -- Very closely related to A228352.
-f k n= sum $ map ((k^) . numberOfOnes) $ compositions n where
+f k n = sum $ map ((k^) . numberOfOnes) $ compositions n where
   numberOfOnes = length . filter (== 1)
 
 a000079 = f 1
@@ -32,3 +34,10 @@ a337243order c1 c2
   | length c1 > length c2 = GT
   | otherwise = compare (reverse c1) (reverse c2)
 
+
+flatMap f = concatMap (Data.Foldable.toList . f)
+
+g x = foldl maybeRoot (Just 0) x
+
+-- f ::
+maybeRoot a2 a1 = exactSquareRoot =<< fmap (+a1) a2

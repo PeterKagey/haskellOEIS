@@ -31,7 +31,6 @@ divisorsOfPolynomialOfDegree n = filter f [3..] where
   ps = allPolynomials n
   f i = (>0) $ length $ filter (isInKernels i) ps
 
-
 -- Monic (1,0,-1)-polynomials of degree n that are always divisible by 4
 -- 0,0,0,0,1,5,10,26,91,287,820,2420,7381
 

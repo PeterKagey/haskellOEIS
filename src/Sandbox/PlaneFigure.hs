@@ -49,11 +49,11 @@ a001481_list = filter (not . null . stepsOfLengthSqrtN ) [0..]
 
 a001481 n = a001481_list !! (n - 1)
 
-minByUniq :: (Ord b) => (a -> b) -> [a] -> a
+-- Find minimum, but only if there's only one minimum.
+minByUniq :: (Show a, Ord b) => (a -> b) -> [a] -> a
 minByUniq f (a:as) = recurse [a] as where
-  -- recurse :: [a] -> [a] -> a
   recurse [knownMin] [] = knownMin
-  recurse (x:x':xs) [] = error (show (x, x'))
+  recurse (x:x':xs) [] = error $ show (x, x')
   recurse ms@(m:_) (x:xs)
     | f m  < f x = recurse ms xs
     | f m == f x = recurse (x:ms) xs

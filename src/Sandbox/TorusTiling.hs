@@ -1,4 +1,5 @@
 -- 3 X 3 torus tiled with diagonals, up to rotation, reflection, and shifting.
+-- Cf. A295223.
 
 type Tiling =
   (
