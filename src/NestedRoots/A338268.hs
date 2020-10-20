@@ -1,4 +1,4 @@
-module Miscellaneous.A338268 (a338268, a338268_row) where
+module NestedRoots.A338268 (a338268, a338268_row, a338268_t) where
 import Data.MemoCombinators (memo2, integral)
 import Math.NumberTheory.Powers.Squares (integerSquareRoot')
 

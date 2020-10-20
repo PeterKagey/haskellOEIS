@@ -1,6 +1,6 @@
-module Miscellaneous.A338271Spec (main, spec) where
+module NestedRoots.A338271Spec (main, spec) where
 import Test.Hspec
-import Miscellaneous.A338271 (a338271)
+import NestedRoots.A338271 (a338271)
 
 main :: IO ()
 main = hspec spec
