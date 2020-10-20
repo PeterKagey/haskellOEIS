@@ -6,9 +6,25 @@ import Data.Set (Set, insert, singleton)
 -- the width, and h is the right. (At each height, take 0, 1, ..., w-1) steps,
 -- at the final height, there's only one choice to make.
 
--- I believe that the maximum number of steps is w*h + (h % w).
+-- I believe that the maximum number of steps from (0,0) to (0, h) is w*h + (h % w).
 -- The main diagonal and off-diagonals seem to have nice structure when counting
 -- maximal walks.
+
+-- n x n torus (A324603)
+-- n x m torus (A324604)
+-- n x m torus steps in maximal walk (A306779)
+-- n x m torus number of maximal walks (A324605)
+-- n x n torus maximal (A056188?)
+-- n x n torus up >= right (A324606)
+-- n x m torus up >= right (A324607)
+-- n x n torus up > right (A324608)
+
+-- n x n cylinder
+-- n x m cylinder
+-- n x n cylinder maximal
+-- n x m cylinder maximal
+-- n x n cylinder up > right
+-- n x m cylinder up > right
 
 data CurrentState = Intersected | Completed (Set Position) | Ongoing State deriving (Show, Eq)
 type Position = (Int, Int)
