@@ -1,6 +1,6 @@
 module DoubleOrIncrement.A316232 where
 import Helpers.Table (triangleByRows)
-import Helpers.DoubleOrIncrement (numberOfPaths, minimumMatch)
+import Helpers.DoubleOrIncrement (minimumMatch)
 
 -- Table read by rows: T(n, k) is the minimum number m such that (m, m) can be reached from A304027(n, k) applications of either (x, y) -> (x + 1, 2*y) or (x, y) -> (2*x, y + 1), where 0 <= k <= n.
 a316232 :: Integer -> Integer
