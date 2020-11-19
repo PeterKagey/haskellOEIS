@@ -1,33 +1,39 @@
 module IntegerTriangles.A338202 (a338202, a338202_list) where
-import Data.Ratio ((%), denominator, Ratio)
-type Q = Ratio Integer
+import Data.List (genericTake)
+import Data.Ratio ((%), numerator, denominator, Ratio)
+import qualified Data.MemoCombinators as Memo
 
--- Note: this is slow because it recomputes each term.
--- A smarter implementation would compute A338201 and let this sequence be
--- the cumulative sum.
 a338202 :: Integer -> Int
-a338202 n = length $ filter (\[a,b,c] -> a + b > c) $ decreasingRationalSums n 3
+a338202 = length . allTriangles
 
 a338202_list :: [Int]
 a338202_list = map a338202 [1..]
 
-decreasingRationalSums :: Integer -> Int -> [[Q]]
-decreasingRationalSums largestDenominator k = recurse k [[]] where
-  recurse 1 listOfQs = concatMap (`finalExtension` largestDenominator) listOfQs
-  recurse counter listOfQs = recurse (counter - 1) (concatMap (`extendList` largestDenominator) listOfQs)
+ratioMemo :: (Ratio Integer -> r) -> Ratio Integer -> r
+ratioMemo = Memo.wrap f g $ Memo.pair Memo.integral Memo.integral where
+  f (n,d) = n % d
+  g r = (numerator r, denominator r)
 
-extendList :: [Q] -> Integer -> [[Q]]
-extendList qs denom = concatMap (extendListD qs) [1..denom]
+secondSideList :: Integer -> Ratio Integer -> [Ratio Integer]
+secondSideList n firstSide = concat $ genericTake (n - 2) $ secondSideRows firstSide
 
-extendListD :: [Q] -> Integer -> [[Q]]
-extendListD [] denom = map (:[]) $ allReducedFractions denom
-extendListD qs@(q:_) denom = map (:qs) $ takeWhile (<=(q `min` r)) $ allReducedFractions denom where
-  r = 1 - sum qs
+secondSideRows :: Ratio Integer -> [[Ratio Integer]]
+secondSideRows = ratioMemo secondSideRows' where
+  secondSideRows' firstSide = map validFractions [3..] where
+    validFractions n = map (% n) $ filter ((==1) . gcd n) [lowerBound..upperBound] where
+      lowerBound = ceiling ((n % 1) * (1 - firstSide)/2)
+      upperBound = floor ((n % 1) * firstSide)
 
-finalExtension :: [Q] -> Integer -> [[Q]]
-finalExtension [] _ = [[1 % 1]]
-finalExtension qs@(q:_) denom = [r : qs |  (denominator r <= denom) && (r > 0) && r <= q] where
-  r = 1 - sum qs
+largestSideList :: Integer -> [Ratio Integer]
+largestSideList n = concat $ genericTake (n - 3) largestSideRows
 
-allReducedFractions :: Integral a => a -> [Ratio a]
-allReducedFractions d = map (% d) $ filter (\n -> n `gcd` d == 1) [1..d-1]
+largestSideRows :: [[Ratio Integer]]
+largestSideRows = map validFractions [4..] where
+  validFractions n = map (% n) $ filter ((==1) . gcd n) [(n + 2) `div` 3..(n-1) `div` 2]
+
+allTriangles :: Integer -> [(Ratio Integer, Ratio Integer, Ratio Integer)]
+allTriangles 1 = []
+allTriangles 2 = []
+allTriangles n = (1 % 3, 1 % 3, 1 % 3) : concatMap boundedSecondSideList firstSide where
+  firstSide = largestSideList n
+  boundedSecondSideList side1 = map (\s2 -> (side1, s2, 1 - side1 - s2)) $ filter (\s2 -> denominator (1 - side1 - s2) <= n) $ secondSideList n side1
