@@ -1,7 +1,8 @@
 module KthDifferences.A999999 (a999999_list, a999999) where
 import External.A174344 (a174344)
 import Miscellaneous.A268038 (a268038)
-import Data.Set (Set, singleton, insert, member)
+import Data.Set (Set)
+import qualified Data.Set as Set
 import Data.Maybe (Maybe, mapMaybe)
 
 type KthDifferences = [((Integer, Integer), Set (Integer, Integer))]
@@ -29,8 +30,8 @@ spiral :: [(Int, Integer, Integer)]
 spiral = map (\i -> (i, a174344 i, -a268038 i)) [1..]
 
 updateDifferences :: (Integer, Integer) -> KthDifferences -> Maybe KthDifferences
-updateDifferences nextTerm [] = Just [(nextTerm, singleton nextTerm)]
+updateDifferences nextTerm [] = Just [(nextTerm, Set.singleton nextTerm)]
 updateDifferences nextTerm@(x,y) (((c,d), ds):ds')
-  | nextTerm `member` ds = Nothing
+  | nextTerm `Set.member` ds = Nothing
   | otherwise            = fmap (updated:) (updateDifferences (x-c, y-d) ds') where
-    updated = (nextTerm, insert nextTerm ds)
+    updated = (nextTerm, Set.insert nextTerm ds)

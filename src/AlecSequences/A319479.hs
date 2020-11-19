@@ -1,7 +1,9 @@
 module AlecSequences.A319479 (a319479) where
 import Data.Ratio (Ratio, (%))
 import Data.List (nub, genericTake, genericLength, subsequences)
-import Data.Set (Set, empty, insert, member)
+import Data.Set (Set)
+import qualified Data.Set as Set
+
 
 type Midpoint = (Ratio Integer, Ratio Integer)
 type Point = (Integer, Integer)
@@ -13,12 +15,12 @@ midpoint :: [Point] -> Midpoint
 midpoint pts = (average $ map fst pts, average $ map snd pts)
 
 validExtension :: Point -> [Point] -> Bool
-validExtension candidate knownSequence = recurse allMidpoints empty where
+validExtension candidate knownSequence = recurse allMidpoints Set.empty where
    allMidpoints = map (midpoint . (candidate:)) $ subsequences knownSequence
    recurse [] _ = True
    recurse (m:ms) newMidpoints
-    | m `member` newMidpoints = False
-    | otherwise               = recurse ms (m `insert` newMidpoints)
+    | m `Set.member` newMidpoints = False
+    | otherwise               = recurse ms (m `Set.insert` newMidpoints)
 
 a319479_points :: [Point]
 a319479_points = (1, 1) : remaining 2 where

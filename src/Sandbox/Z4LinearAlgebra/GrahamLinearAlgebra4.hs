@@ -1,7 +1,8 @@
 module Helpers.GrahamLinearAlgebra3 (rrefMatrix) where
 import Graham.A006255 (a006255)
 import Helpers.F3Vectors (rref) ------------------------------------------------ PROBLEM -----------------------------
-import Data.Vector (Vector, fromList, head, map, snoc, tail, replicate, (//))
+import Data.Vector (Vector)
+import qualified Data.Vector as Vec
 import HelperSequences.A000040 (a000040_list)
 import HelperSequences.A000720 (a000720)
 
@@ -25,18 +26,18 @@ powersToTry n terms modulus = concatMap build [1..maxTerm] where
     (a, b) = (fromIntegral modulus, fromIntegral (n + terms))
 
 buildRow :: Int -> Int -> Int -> Vector Int
-buildRow n terms modulus = emptyVector // newValues where
-  emptyVector = Data.Vector.replicate (terms + 1) 0
+buildRow n terms modulus = emptyVector Vec.// newValues where
+  emptyVector = Vec.replicate (terms + 1) 0
   newValues = powersToTry n terms modulus
 
 buildMatrix1 :: Int -> Int -> Vector (Vector Int)
-buildMatrix1 n terms = fromList $ Prelude.map (buildRow n terms) primeColumns where
+buildMatrix1 n terms = Vec.fromList $ Prelude.map (buildRow n terms) primeColumns where
   primeColumns :: [Int]
   primeColumns = Prelude.map fromInteger $ take (fromInteger $ a000720 n') a000040_list where
     n' = fromIntegral (n + terms)
 
 iMatrix :: Int -> Vector (Vector Int)
-iMatrix n = Data.Vector.map cycleVector scaledMatrix where
+iMatrix n = Vec.map cycleVector scaledMatrix where
   scaledMatrix = buildMatrix1 n terms where
     terms = subtract n $ fromIntegral $ a006255 $ fromIntegral n
-  cycleVector m = snoc (Data.Vector.tail m) (Data.Vector.head m)
+  cycleVector m = Vec.snoc (Vec.tail m) (Vec.head m)

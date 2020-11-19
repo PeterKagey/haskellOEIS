@@ -1,5 +1,6 @@
 module Subsets.A292997 (a292997) where
-import Data.Set (Set, (\\), delete, empty, fromList)
+import Data.Set (Set)
+import qualified Data.Set as Set
 import Helpers.Subsets (eachPair, combinations)
 import Helpers.Factorials (binomial, factorial)
 
@@ -9,17 +10,17 @@ a292997_list = concatMap a292997_row [1..]
 
 -- Can exploit the fact that each row is weakly longer than the preceding row.
 a292997_row n = head $ filter (`isValidSubset` s) ls where
-  s = fromList [1..n]
+  s = Set.fromList [1..n]
   ls = canonicallyOrderedSubsequences [1..n]
 
 -- Assumes list is increasing
 isValidSubset :: [Int] -> Set Int -> Bool
 isValidSubset list targetSet = recurse pairs targetSet' where
   pairs = eachPair list
-  targetSet' = targetSet \\ fromList list
+  targetSet' = targetSet Set.\\ Set.fromList list
   recurse ((a,b):ls) s
     | null s    = True
-    | otherwise = recurse ls (delete (b - a) $ delete (a + b) s)
+    | otherwise = recurse ls (Set.delete (b - a) $ Set.delete (a + b) s)
   recurse [] s
     | null s = True
     | otherwise = False

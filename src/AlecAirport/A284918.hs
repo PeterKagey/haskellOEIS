@@ -1,6 +1,5 @@
 module AlecAirport.A284918 (a284918) where
 import Data.List (find, nub)
-import Data.Set (Set, notMember, empty, insert, fromList)
 import Helpers.GridLabeling (pairs, onALine, onLine, everyPair)
 a284918 n = map snd a284918_list !! (n - 1)
 

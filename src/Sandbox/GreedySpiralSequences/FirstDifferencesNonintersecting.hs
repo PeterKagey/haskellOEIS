@@ -1,7 +1,8 @@
 module KthDifferences.A999996 () where
 import External.A174344 (a174344)
 import Miscellaneous.A268038 (a268038)
-import Data.Set (Set, singleton, insert, member, empty)
+import Data.Set (Set)
+import qualified Data.Set as Set
 import Data.Maybe (Maybe, mapMaybe)
 import Data.Ratio (Ratio, (%))
 import Sandbox.SegmentIntersection (intersects, pointIsOnLine)
@@ -16,7 +17,7 @@ type Status = (Point, [Point], Set (Integer, Integer))
 
 -- Each list of k-th differences distinct.
 -- a999996_list :: [(Integer, Integer)]
-a999996_list = (0,0) : recurse ((0,0), [(0,0)], empty) where
+a999996_list = (0,0) : recurse ((0,0), [(0,0)], Set.empty) where
   -- recurse kthDifferences = n : recurse ds where
   -- recurse kthDifferences = x : recurse ds where
   recurse status = p_0 : recurse status' where
@@ -36,10 +37,10 @@ updateStatus :: Point -> Status -> Maybe Status
 updateStatus p_1 (p_0, points@(point:_), firstDifferences)
   | p_1 `elem` points                   = Nothing
   | intersectsPolygonalChain p_1 points = Nothing
-  | fd `member` firstDifferences        = Nothing
+  | fd `Set.member` firstDifferences        = Nothing
   | otherwise                           = Just (p_1, p_1:points, firstDifferences') where
     fd = firstDiff p_0 p_1
-    firstDifferences' = fd `insert` firstDifferences
+    firstDifferences' = fd `Set.insert` firstDifferences
 
 firstDiff :: Point -> Point -> (Integer, Integer)
 firstDiff (x0, y0) (x1, y1) = (x0 - x1, y0 - y1)

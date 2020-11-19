@@ -1,5 +1,6 @@
 import Data.List (nub, subsequences, map)
-import Data.Set (Set, map, size, fromList, (\\), union)
+import Data.Set (Set)
+import qualified Data.Set as Set
 import Data.Map (Map, fromSet, (!))
 
 type State = Set Int
@@ -13,7 +14,7 @@ canonicalStateMap :: Int -> Set State -> M
 canonicalStateMap n = fromSet (canonicalState n)
 
 allStates :: Int -> Set State
-allStates n = fromList $ Data.List.map fromList $ subsequences [0..n-1]
+allStates n = Set.fromList $ Data.List.map Set.fromList $ subsequences [0..n-1]
 
 startingState :: Map State State -> Set State -> Set State
 startingState m = Data.Set.map (m !)
@@ -23,7 +24,7 @@ canonicalState n xs = minimum $ concatMap (\as -> [as, complement n as]) $ foldr
   prependShifted _ as@(a:_) = shiftSet n a : as
 
 complement :: Int -> State -> State
-complement n s = fromList [0..n-1] \\ s
+complement n s = Set.fromList [0..n-1] \\ s
 
 shiftSet :: Int -> State -> State
 shiftSet n = Data.Set.map (\i -> (i + 1) `mod` n)
@@ -48,4 +49,4 @@ x -|- y = (x \\ y) `union` (y \\ x)
 --     nextState =
 
 -- nextGraphState :: Map State State -> Set State -> GraphState -> GraphState
--- nextGraphState canonicalLookup everyState graphState = foldr () empty graphState
+-- nextGraphState canonicalLookup everyState graphState = foldr () Set.empty graphState

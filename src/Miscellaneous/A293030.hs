@@ -1,6 +1,7 @@
 module Miscellaneous.A293030  where
 import Helpers.Table (tableByAntidiagonals)
-import Data.Set (Set, empty, insert, notMember)
+import Data.Set (Set)
+import qualified Data.Set as Set
 --   a(n, 1) is the least positive integer not in a previous row.
 -- This sequence is a permutation of the natural numbers.
 -- Array begins:
@@ -38,11 +39,11 @@ deleteTermsFrom minuend@(i:is) subtrahend@(j:js)
   | i > j  = deleteTermsFrom minuend js
 
 arithmeticFreeSequence :: [Int] -> [Int]
-arithmeticFreeSequence validTerms = recurse validTerms empty where
+arithmeticFreeSequence validTerms = recurse validTerms Set.empty where
   recurse (v:vs) knownTerms
-    | isArithmeticFree v knownTerms = v : recurse vs (insert v knownTerms)
+    | isArithmeticFree v knownTerms = v : recurse vs (Set.insert v knownTerms)
     | otherwise                     = recurse vs knownTerms
 
 isArithmeticFree :: Int -> Set Int -> Bool
 isArithmeticFree i knownTerms = all isFree knownTerms where
-  isFree j = (2*j - i) `notMember` knownTerms
+  isFree j = (2*j - i)  `Set.notMember` knownTerms

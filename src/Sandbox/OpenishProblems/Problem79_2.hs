@@ -31,4 +31,3 @@ nextGeneration n configuration = foldr f Set.empty where
 -- Memoize this?
 offSpring n c1 c2 = foldr insertSum Set.empty (necklace c1) where
   insertSum c1' = insertStandardized n (zipWith (+) c1' c2)
-

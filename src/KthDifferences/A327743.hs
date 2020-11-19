@@ -1,5 +1,6 @@
 module KthDifferences.A327743 (a327743_list, a327743) where
-import Data.Set (Set, singleton, insert, member)
+import Data.Set (Set)
+import qualified Data.Set as Set
 import Data.Maybe (Maybe, mapMaybe)
 
 type KthDifferences = [(Integer, Set Integer)]
@@ -17,8 +18,8 @@ nextDifferences :: KthDifferences -> KthDifferences
 nextDifferences ds = head $ mapMaybe (`updateDifferences` ds) [1..]
 
 updateDifferences :: Integer -> KthDifferences -> Maybe KthDifferences
-updateDifferences nextTerm [] = Just [(nextTerm, singleton nextTerm)]
+updateDifferences nextTerm [] = Just [(nextTerm, Set.singleton nextTerm)]
 updateDifferences nextTerm ((d, ds):ds')
-  | nextTerm `member` ds = Nothing
+  | nextTerm `Set.member` ds = Nothing
   | otherwise            = fmap (updated:) (updateDifferences (nextTerm - d) ds') where
-    updated = (nextTerm, insert nextTerm ds)
+    updated = (nextTerm, Set.insert nextTerm ds)

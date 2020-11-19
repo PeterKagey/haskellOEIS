@@ -1,19 +1,20 @@
 module Helpers.Midpoints (nonDuplicateMidpointSequence, Injectivity(..), ArithmeticProgression(..)) where
-import Data.Set (Set, empty, insert)
+import Data.Set (Set)
+import qualified Data.Set as Set
 
 data Injectivity = Injective | Noninjective deriving (Eq)
 data ArithmeticProgression = Arithmetic | Nonarithmetic deriving (Eq)
 
 nonDuplicateMidpointSequence :: ArithmeticProgression -> Injectivity -> [Int]
 nonDuplicateMidpointSequence arithmetricity injectivity = map snd list where
-  list = recurse 1 empty where
+  list = recurse 1 Set.empty where
     recurse i knownMidpoints = (i, a_i) : recurse (i + 1) newMidpoints where
       knownSequence = take (i - 1) list
       a_i = newMidpoint injectivity i knownMidpoints knownSequence
       newMidpoints
-        | arithmetricity == Arithmetic = insert (2 * i, 2 * a_i) recursiveMidpoints
+        | arithmetricity == Arithmetic = Set.insert (2 * i, 2 * a_i) recursiveMidpoints
         | otherwise                    = recursiveMidpoints where
-          recursiveMidpoints = foldr (insert . midpoint (i, a_i)) knownMidpoints knownSequence
+          recursiveMidpoints = foldr (Set.insert . midpoint (i, a_i)) knownMidpoints knownSequence
 
 -- Given a list of midpoints and a list of existing terms, find the least term
 -- such that it doesn't share a midpoint with any two other points.

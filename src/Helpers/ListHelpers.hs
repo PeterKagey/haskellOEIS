@@ -1,12 +1,13 @@
 module Helpers.ListHelpers (allDistinct, cartesianProduct, concatReplicate, firstDifferences, reciprocalSum, runLengths, zipWithPadding) where
 import Data.List (group)
-import Data.Set (empty, member, insert)
+import Data.Set (Set)
+import qualified Data.Set as Set
 -- concatReplicate is to replicate as concatMap is to map
 concatReplicate :: Int -> [a] -> [a]
 concatReplicate n list = take (n * length list) $ cycle list
 
 -- reciprocalSum [2,5] = (1 % 2) + (1 % 5)
---                     = 7 % 10
+--                     = 7 % 1
 reciprocalSum :: Integral a => [a] -> Rational
 reciprocalSum = sum . map (recip . toRational)
 
@@ -25,11 +26,11 @@ firstDifferences [] = []
 firstDifferences ls'@(_:ls) = zipWith (-) ls ls'
 
 allDistinct :: Ord a => [a] -> Bool
-allDistinct = recurse empty where
+allDistinct = recurse Set.empty where
   recurse seen [] = True
   recurse seen (r:rs)
-    | r `member` seen = False
-    | otherwise       = recurse (r `insert` seen) rs
+    | r `Set.member` seen = False
+    | otherwise           = recurse (r `Set.insert` seen) rs
 
 cartesianProduct 0 _        = []
 cartesianProduct 1 elements = map (:[]) elements

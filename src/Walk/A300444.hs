@@ -1,6 +1,7 @@
 module Walk.A300444 (a300444, a300444_list) where
 import Data.Ratio
-import Data.Set (Set, fromList, empty, union, member)
+import Data.Set (Set)
+import qualified Data.Set as Set
 import Data.List (findIndices)
 -- The path-avoiding snail.
 
@@ -22,7 +23,7 @@ a300444 n = a300444_list !! (n - 1)
 a300444_list :: [Int]
 a300444_list = map firstStepWith [1,3..] where
   numeratorsByStep = map distinctStepSizes allPaths
-  firstStepWith i = head $ findIndices (member i) numeratorsByStep
+  firstStepWith i = head $ findIndices (Set.member i) numeratorsByStep
 
 --------------------------------------------------------------------------------
 
@@ -85,5 +86,5 @@ allPaths = [[]] : recurse [[HorizontalStep 0 (0, 1)]] where
   recurse paths = paths : recurse (nextPaths paths)
 
 distinctStepSizes :: [Path] -> Set Int
-distinctStepSizes = foldr (union . distanceNumerators) Data.Set.empty where
-  distanceNumerators path = fromList $ map distanceNumerator path
+distinctStepSizes = foldr (Set.union . distanceNumerators) Set.empty where
+  distanceNumerators path = Set.fromList $ map distanceNumerator path

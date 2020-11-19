@@ -1,6 +1,7 @@
 module Helpers.PolygonSizes (triangleSizes, a001481_pairs) where
-import Data.Set (Set, fromList, singleton, union)
 import Math.NumberTheory.Powers.Squares (integerSquareRoot')
+import Data.Set (Set)
+import qualified Data.Set as Set
 
 -- equilateralTriangleSize 2 4 = 3
 -- because this triangle (marked with *) has side length sqrt(3).
@@ -16,8 +17,8 @@ equilateralTriangleSize k n = 3 * k * (k - n - 1) + n^2 + n + 1
 -- The n-th entry gives all squares of possible side lengths of equilateral
 -- triangles in a triangular grid consisting of n + 1 rows.
 triangleSizes :: [Set Integer]
-triangleSizes = scanl f (singleton 1) [3..] where
-  f b n = union b $ fromList [equilateralTriangleSize k n | k <- [1..n `div` 2]]
+triangleSizes = scanl f (Set.singleton 1) [3..] where
+  f b n = Set.union b $ Set.fromList [equilateralTriangleSize k n | k <- [1..n `div` 2]]
 
 a001481_pairs :: [[(Integer, Integer)]]
 a001481_pairs = filter (not . null) $ map stepsOfLengthSqrt [0..] where

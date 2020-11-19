@@ -1,5 +1,4 @@
 module Helpers.F3Matrix where
-
 import Data.Matrix (mapRow, Matrix, getRow, nrows, getElem, switchRows, ncols)
 import Data.Vector (Vector, zipWith, map, (!))
 import Data.List (find, delete)

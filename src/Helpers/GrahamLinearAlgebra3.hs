@@ -1,6 +1,7 @@
 module Helpers.GrahamLinearAlgebra3 (rrefMatrix) where
 import Helpers.F3Vectors (rref)
-import Data.Vector (Vector, fromList, head, map, snoc, tail, replicate, (//))
+import Data.Vector (Vector)
+import qualified Data.Vector as Vec
 import HelperSequences.A000040 (a000040_list)
 import HelperSequences.A000720 (a000720)
 
@@ -15,7 +16,7 @@ tupleBuilder :: Int          -- e.g. 5
 tupleBuilder n terms modulus x = zip indexes [x,x..] where
   offset = modulus + n `mod` (-modulus)
   numberOfIndices = (terms + offset) `div` modulus
-  indexes = Prelude.map (\i -> modulus * i - offset) [1..numberOfIndices]
+  indexes = map (\i -> modulus * i - offset) [1..numberOfIndices]
 
 powersToTry :: Int -> Int -> Int -> [(Int, Int)]
 powersToTry n terms modulus = concatMap build [1..maxTerm] where
@@ -24,18 +25,18 @@ powersToTry n terms modulus = concatMap build [1..maxTerm] where
     (a, b) = (fromIntegral modulus, fromIntegral (n + terms))
 
 buildRow :: Int -> Int -> Int -> Vector Int
-buildRow n terms modulus = emptyVector // newValues where
-  emptyVector = Data.Vector.replicate (terms + 1) 0
+buildRow n terms modulus = emptyVector Vec.// newValues where
+  emptyVector = Vec.replicate (terms + 1) 0
   newValues = powersToTry n terms modulus
 
 buildMatrix1 :: Int -> Int -> Vector (Vector Int)
-buildMatrix1 n terms = fromList $ Prelude.map (buildRow n terms) primeColumns where
+buildMatrix1 n terms = Vec.fromList $ map (buildRow n terms) primeColumns where
   primeColumns :: [Int]
-  primeColumns = Prelude.map fromInteger $ take (fromInteger $ a000720 n') a000040_list where
+  primeColumns = map fromInteger $ take (fromInteger $ a000720 n') a000040_list where
     n' = fromIntegral (n + terms)
 
 iMatrix :: Int -> Vector (Vector Int)
-iMatrix n = Data.Vector.map cycleVector scaledMatrix where
+iMatrix n = Vec.map cycleVector scaledMatrix where
   scaledMatrix = buildMatrix1 n terms where
     terms = if n == 4 then 8 else 2 * n - 1
-  cycleVector m = snoc (Data.Vector.tail m) (Data.Vector.head m)
+  cycleVector m = Vec.snoc (Vec.tail m) (Vec.head m)

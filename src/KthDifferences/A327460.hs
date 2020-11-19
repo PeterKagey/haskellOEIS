@@ -1,11 +1,12 @@
 module KthDifferences.A327460 (a327460_list, a327460) where
-import Data.Set (Set, singleton, insert, member, empty, size, fromList)
+import Data.Set (Set)
+import qualified Data.Set as Set
 import Data.Maybe (Maybe, mapMaybe)
 type KthDifferences = ([Integer], Set Integer)
 
 -- This computes the first 4837 terms correctly, computes the 4838th term incorrectly, and then gets stuck.
 a327460_list :: [Integer]
-a327460_list = recurse ([], empty) where
+a327460_list = recurse ([], Set.empty) where
   recurse kthDifferences = n : recurse ds where
     ds@(n:_,_) = nextTerm kthDifferences
 
@@ -14,12 +15,12 @@ a327460 n = a327460_list !! (n - 1)
 
 updateDifferences :: [Integer] -> Integer -> KthDifferences -> Maybe KthDifferences
 updateDifferences xs nextTerm ([], ds)
-  | nextTerm `member` ds = Nothing
-  | otherwise            = Just (reverse (nextTerm : xs), insert nextTerm ds)
+  | nextTerm `Set.member` ds = Nothing
+  | otherwise            = Just (reverse (nextTerm : xs), Set.insert nextTerm ds)
 updateDifferences xs nextTerm (r:rs, ds)
-  | nextTerm `member` ds = Nothing
+  | nextTerm `Set.member` ds = Nothing
   | getsStuck xs         = Nothing
-  | otherwise            = updateDifferences (nextTerm : xs) (nextTerm - r) (rs, insert nextTerm ds)
+  | otherwise            = updateDifferences (nextTerm : xs) (nextTerm - r) (rs, Set.insert nextTerm ds)
 
 nextTerm :: KthDifferences -> KthDifferences
 nextTerm ds = head $ mapMaybe (\t -> updateDifferences [] t ds) [1..]
@@ -32,7 +33,7 @@ getsStuck (d1:d2:_) = d1 + d2 == 0
 getsStuck _ = False
 
 a328071_rows :: [[Integer]]
-a328071_rows = map reverse $ recurse ([], empty) where
+a328071_rows = map reverse $ recurse ([], Set.empty) where
   recurse kthDifferences = k : recurse ds where
     ds@(k,_) = nextTerm kthDifferences
 

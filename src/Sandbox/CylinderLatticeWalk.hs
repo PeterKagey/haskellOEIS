@@ -1,4 +1,5 @@
-import Data.Set (Set, insert, singleton)
+import Data.Set (Set)
+import qualified Data.Set as Set
 -- See TorusLatticeWalk.hs, this is mostly copied and pasted from there with
 -- some changes to nextStatesRight and nextStatesUp
 
@@ -30,7 +31,7 @@ data CurrentState = Intersected | Completed (Set Position) | Ongoing State deriv
 type Position = (Int, Int)
 type State = (Position, Set Position)
 
-maximalCylinderWalks n m = recurse [] [Ongoing ((0, 0), singleton (0,0))] where
+maximalCylinderWalks n m = recurse [] [Ongoing ((0, 0), Set.singleton (0,0))] where
   recurse completedWalks [] = completedWalks
   recurse completedWalks ongoingStates = recurse completedWalks' ongoingStates' where
     nextStates = concatMap (\s -> [nextStatesRight n m s, nextStatesUp m s]) ongoingStates
@@ -38,7 +39,7 @@ maximalCylinderWalks n m = recurse [] [Ongoing ((0, 0), singleton (0,0))] where
     completedWalks' = if null cW then completedWalks else cW where
       cW = filter isCompleted nextStates
 
-allCylinderWalks n m = recurse [] [Ongoing ((0, 0), singleton (0,0))] where
+allCylinderWalks n m = recurse [] [Ongoing ((0, 0), Set.singleton (0,0))] where
   recurse completedWalks [] = completedWalks
   recurse completedWalks ongoingStates = recurse completedWalks' ongoingStates' where
     nextStates = concatMap (\s -> [nextStatesRight n m s, nextStatesUp m s]) ongoingStates
@@ -49,7 +50,7 @@ nextStatesRight :: Int -> Int -> CurrentState -> CurrentState
 nextStatesRight width height (Ongoing ((x, y), pastPositions))
   | newPosition == (0, height) = Completed pastPositions
   | newPosition `elem` pastPositions = Intersected
-  | otherwise = Ongoing (newPosition, insert newPosition pastPositions) where
+  | otherwise = Ongoing (newPosition, Set.insert newPosition pastPositions) where
     newPosition = ((x + 1) `mod` width, y)
 
 nextStatesUp :: Int -> CurrentState -> CurrentState
@@ -57,7 +58,7 @@ nextStatesUp height (Ongoing ((x, y), pastPositions))
   | newPosition == (0, height)       = Completed pastPositions
   | y == height                      = Intersected
   | newPosition `elem` pastPositions = Intersected
-  | otherwise = Ongoing (newPosition, insert newPosition pastPositions) where
+  | otherwise = Ongoing (newPosition, Set.insert newPosition pastPositions) where
     newPosition = (x, y + 1)
 
 isCompleted :: CurrentState -> Bool

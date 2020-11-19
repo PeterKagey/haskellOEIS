@@ -1,6 +1,7 @@
 module StoneTransfer.A292726 (a292726, a292726_list) where
 import Data.List (delete, nub, sort, null)
-import Data.Set (Set, empty, insert, notMember)
+import Data.Set (Set)
+import qualified Data.Set as Set
 import Data.IntMap.Strict (IntMap, toList, adjust, fromList)
 -- The best structure for this would probably be a Scala-like Map[Int, Int],
 -- which behaves like a histogram.
@@ -23,10 +24,10 @@ nextGeneration currentGen = concatMap (`descendants` currentGen) $ multiples cur
       changeSet = [(subtract 2, pileSize), ((+1), pileSize - n), ((+1), pileSize + n)]
 
 enumerateFrom :: State -> Set State
-enumerateFrom initialGeneration = recurse [initialGeneration] empty where
+enumerateFrom initialGeneration = recurse [initialGeneration] Set.empty where
   recurse :: [State] -> Set State -> Set State
   recurse currentGen ledger = if null newGen then updatedLedger else recurse newGen updatedLedger where
-    newGen = filter (`notMember` ledger) $ concatMap nextGeneration currentGen
+    newGen = filter ( `Set.notMember` ledger) $ concatMap nextGeneration currentGen
     updatedLedger = insertList currentGen ledger
 
-insertList list set = foldr insert set list
+insertList list set = foldr Set.insert set list

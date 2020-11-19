@@ -1,7 +1,8 @@
 module Permutations.A327845 where
 import Helpers.ListHelpers (firstDifferences, allDistinct)
 import Data.List (permutations)
-import Data.Set (empty, insert, member)
+import Data.Set (Set)
+import qualified Data.Set as Set
 
 distinctDifferences :: Integral a => [a] -> Bool
 distinctDifferences [] = True

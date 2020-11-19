@@ -1,5 +1,4 @@
-import Data.Set (Set, fromList, lookupGE, singleton)
-import Data.List (delete)
+import Data.Set (Set)
 import qualified Data.Set as Set
 import Helpers.SetHelpers (flatMap)
 
@@ -10,7 +9,7 @@ type Facet       = Set Restriction
 type Polyform    = Set Facet
 
 connectedFacets :: Int -> Facet -> Set Facet
-connectedFacets n facet = Set.delete facet $ fromList $ map fromList $ recurse (Set.size facet) seeds where
+connectedFacets n facet = Set.delete facet $ Set.fromList $ map Set.fromList $ recurse (Set.size facet) seeds where
   seeds = map (`possibleRestrictions` facet) [1..n]
   recurse 0 _  = [[]]
   recurse _ [] = []
@@ -25,7 +24,7 @@ possibleRestrictions m facet = recurse $ Set.lookupGE (m, 0) facet where
     | otherwise = [(m, 0), (m, 1)]
 
 -- A set of all k-polyforms on the n-cube containing the seed facet.
--- When k = 0, this should give the empty polyomino.
+-- When k = 0, this should give the Set.empty polyomino.
 allPseduoPolyforms :: Int -> Int -> Facet -> Set Polyform
 allPseduoPolyforms n k seedFacet = recurse k (Set.singleton seedFacet) (connectedFacets n seedFacet) where
   recurse 0 polyform _ = Set.singleton Set.empty
@@ -59,7 +58,7 @@ allRotations n = [rotation i j | i <- [1..n-1], j <- [i+1..n]]
 
 generateChildren :: Int -> Polyform -> Set Polyform
 generateChildren n polyform = recurse (allRotations n) flipped where
-  flipped = fromList [polyform, flipFirst polyform]
+  flipped = Set.fromList [polyform, flipFirst polyform]
   recurse [] symmetries = symmetries
   recurse (r:rs) symmetries = recurse rs s' where
     s' = Set.unions $ scanr (\_ b -> Set.map r b) symmetries [1..3]
