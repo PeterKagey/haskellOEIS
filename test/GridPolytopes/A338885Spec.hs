@@ -9,4 +9,4 @@ spec :: Spec
 spec = describe "A338885" $
   it "correctly computes the first 20 elements" $
     take 20 (map a338885 [2..]) `shouldBe` expectedValue where
-      expectedValue = [2,3,4,5,4,5,7,6,9,10,5,7,8,11,13,7,8,10,13,16,17,6,9,11,12,15,19]
+      expectedValue = [2,3,4,5,4,5,7,6,9,10,5,7,8,11,13,7,8,10,13,16]
