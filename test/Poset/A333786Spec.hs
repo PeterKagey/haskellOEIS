@@ -1,4 +1,4 @@
-module Poset.A333786Spec (main,spec) where
+module Poset.A333786Spec (main, spec) where
 import Test.Hspec
 import Poset.A333786 (a333786)
 

@@ -1,4 +1,4 @@
-module Graham.A328045Spec (main,spec) where
+module Graham.A328045Spec (main, spec) where
 import Test.Hspec
 import Graham.A328045 (a328045)
 

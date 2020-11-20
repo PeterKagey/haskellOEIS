@@ -1,4 +1,4 @@
-module DoubleOrIncrement.A304027Spec (main,spec) where
+module DoubleOrIncrement.A304027Spec (main, spec) where
 import Test.Hspec
 import DoubleOrIncrement.A304027 (a304027)
 
