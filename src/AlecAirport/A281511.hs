@@ -1,5 +1,5 @@
 module AlecAirport.A281511 (a281511) where
-import Data.List (delete, elemIndices)
+import Data.List (elemIndices)
 import Helpers.GridLabeling (everyPair)
 
 a281511 :: Int -> Int
