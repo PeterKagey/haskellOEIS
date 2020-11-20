@@ -13,12 +13,14 @@ type VertexSet = Set PVector
 magnitudeSquared :: [Integer] -> Integer
 magnitudeSquared = sum . map (^2)
 
-(+.+) = zipWith (+)
-(-.-) = zipWith (-)
+magSolutions :: Integer -> [[Integer]]
+magSolutions n = magSolutionsList !! fromIntegral n
+
+magSolutionsList = map magSolutions' [0..]
 
 -- solutions to x^2 + y^2 + z^2 = n.
-magSolutions :: Integer -> [[Integer]]
-magSolutions = recurse 3 where
+magSolutions' :: Integer -> [[Integer]]
+magSolutions' = recurse 3 where
   -- recurse :: Int -> Int -> [[Int]]
   recurse 1 n = case exactSquareRoot n of (Just rootN) -> [[rootN]]
                                           Nothing      -> []
@@ -43,8 +45,8 @@ isValid polygon v u = magnitudesMatch && correctAngle where
     | polygon == Square   =      dotProduct == 0
     | polygon == Hexagon  = -2 * dotProduct == magnitudeSquared v
 
-sidePairs :: Polygon -> Integer -> [[[Integer]]]
-sidePairs polygon = filter (\[v,u] -> isValid polygon v u) . choose 2 . concatMap allSigns . magSolutions
+adjacentSides :: Polygon -> Integer -> [[[Integer]]]
+adjacentSides polygon = filter (\[v,u] -> isValid polygon v u) . choose 2 . concatMap allSigns . magSolutions
 
 makeShape :: Polygon -> (PVector -> PVector -> Set PVector)
 makeShape Triangle = makePolygon (\u v -> [[], [u], [v]])
@@ -52,23 +54,34 @@ makeShape Square   = makePolygon (\u v -> [[], [u], [v], [u,v]])
 makeShape Hexagon  = makePolygon (\u v -> [[], [u], [v], [u,u,v], [u,v,v], [u,u,v,v]])
 
 makePolygon :: (PVector -> PVector -> [[PVector]]) -> PVector -> PVector -> VertexSet
-makePolygon vectorCombinations u v = Set.fromList $ map (-.- maxCoords) coords where
+makePolygon vectorCombinations u v = Set.fromList $ map (\c -> zipWith (-) c maxCoords) coords where
   maxCoords = foldr1 (zipWith min) coords
-  coords = map (foldr (+.+) [0,0,0]) $ vectorCombinations u v
+  coords = map (foldr (zipWith (+)) [0,0,0]) $ vectorCombinations u v
 
 boundingBox :: VertexSet -> [Integer]
 boundingBox polygon = foldr1 (zipWith max) $ Set.toList polygon
 
 -- Hexagons with side length k, all nonnegative coordinates, and touching the coordinate planes
 normalized :: Polygon -> Integer -> [VertexSet]
-normalized polygon k = nub $ map (\[v,u] -> makeShape polygon v u) $ sidePairs polygon k
+normalized polygon k = nub $ map (\[v,u] -> makeShape polygon v u) $ adjacentSides polygon k
 
 -- Bounding boxes for hexagons with side length sqrt(k)
 boundingBoxes :: Polygon -> Integer -> [[Integer]]
 boundingBoxes shape = map boundingBox . normalized shape
 
 allBoundingBoxes :: Polygon -> [[[Integer]]]
-allBoundingBoxes polygon = map (boundingBoxes polygon) [1..]
+allBoundingBoxes Square = allSquareBoundingBoxes
+allBoundingBoxes Triangle = allTriangleBoundingBoxes
+allBoundingBoxes Hexagon = allHexagonBoundingBoxes
+
+allSquareBoundingBoxes :: [[[Integer]]]
+allSquareBoundingBoxes = map (boundingBoxes Square) [1..]
+
+allTriangleBoundingBoxes :: [[[Integer]]]
+allTriangleBoundingBoxes = map (boundingBoxes Triangle) [1..]
+
+allHexagonBoundingBoxes :: [[[Integer]]]
+allHexagonBoundingBoxes = map (boundingBoxes Hexagon) [1..]
 
 countPolygons :: Polygon -> Integer -> Integer
 countPolygons polygon n = sum $ map countShifts validBoundingBoxes where
