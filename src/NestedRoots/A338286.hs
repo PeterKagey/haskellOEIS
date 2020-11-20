@@ -4,7 +4,7 @@ import NestedRoots.A338268 (a338268_t)
 
 a338286 :: Integer -> Integer
 a338286 n = a338268_t (k^2 + 2 * n) k where
-  k = 1 + integerSquareRoot' ((1 + integerSquareRoot' (1 + 8 * n)) `div` 2)
+  k = 2 + integerSquareRoot' ((1 + integerSquareRoot' (1 + 8 * n)) `div` 2)
 
 -- Upper bound for A338271
 -- u n
