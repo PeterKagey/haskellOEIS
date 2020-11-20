@@ -1,6 +1,7 @@
 import Data.List (findIndices, permutations, sort, splitAt, tails)
 import Data.Ratio (Ratio, (%))
-import Data.Set (fromList, delete, member)
+import Data.Set (Set)
+import qualified Data.Set as Set
 import Helpers.CoinsInARow (minimaxDifference)
 type Permutation = [Int]
 
@@ -36,10 +37,10 @@ shortestCycle :: Permutation -> Int
 shortestCycle = minimum . cycleSizes
 
 cycleStructure :: Permutation -> String
-cycleStructure p = "(" ++ recurse 1 (fromList [1..length p]) where
+cycleStructure p = "(" ++ recurse 1 (Set.fromList [1..length p]) where
   recurse x unseen
     | null unseen       = ")"
-    | x `member` unseen = show x ++ recurse (p !! (x - 1)) (delete x unseen)
+    | x `Set.member` unseen = show x ++ recurse (p !! (x - 1)) (Set.delete x unseen)
     | otherwise         = ")(" ++ recurse (minimum unseen) unseen
 
 lengthOfFirstCycle :: Permutation -> Int
@@ -48,10 +49,10 @@ lengthOfFirstCycle p = recurse 1 (head p) where
   recurse c p' = recurse (c + 1)  (p !! (p' - 1))
 
 cycleSizes :: Permutation -> [Int]
-cycleSizes p = sort $ recurse 1 0 [] $ fromList [1..length p] where
+cycleSizes p = sort $ recurse 1 0 [] $ Set.fromList [1..length p] where
   recurse x c sizes unseen
     | null unseen = c : sizes
-    | x `member` unseen = recurse (p !! (x - 1)) (c + 1) sizes (delete x unseen)
+    | x `Set.member` unseen = recurse (p !! (x - 1)) (c + 1) sizes (Set.delete x unseen)
     | otherwise         = recurse (minimum unseen) 0 (c : sizes) unseen
 
 inversionNumber :: Permutation -> Int

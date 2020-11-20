@@ -1,15 +1,16 @@
 module Sandbox.CycleStructure where
-import Data.Set (fromList, delete, member)
+import Data.Set (Set)
+import qualified Data.Set as Set
 import Data.List (permutations, (\\))
 
 type PermutationWord = [Int]
 type Cycle = [Int]
 type CycleStructure = [[Int]]
 
-fromWord p = recurse 1 [] (fromList [1..length p]) where
+fromWord p = recurse 1 [] (Set.fromList [1..length p]) where
   recurse x currentCycle unseen
     | null unseen       = [reverse currentCycle]
-    | x `member` unseen = recurse (p !! (x-1)) (x:currentCycle) (delete x unseen)
+    | x `Set.member` unseen = recurse (p !! (x-1)) (x:currentCycle) (Set.delete x unseen)
     | otherwise         = reverse currentCycle : recurse (minimum unseen) [] unseen
 
 fromCycleStructure c = map findValue [1..n] where

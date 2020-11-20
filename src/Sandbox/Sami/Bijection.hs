@@ -1,54 +1,53 @@
-module Sandbox.CycleStructure where
-import Data.Set (fromList, delete, member)
-import Data.List (permutations, (\\))
+import Data.Set (Set)
+import qualified Data.Set as Set
+import Data.List (permutations)
 
-type PermutationWord = [Int]
-type Cycle = [Int]
 type CycleStructure = [[Int]]
 
-fromWord p = recurse 1 [] (fromList [1..length p]) where
+phi k i p = phi' k i $ adjust i p
+
+fromWord p = recurse 1 [] (Set.fromList [1..length p]) where
   recurse x currentCycle unseen
     | null unseen       = [reverse currentCycle]
-    | x `member` unseen = recurse (p !! (x-1)) (x:currentCycle) (delete x unseen)
+    | x `Set.member` unseen = recurse (p !! (x-1)) (x:currentCycle) (Set.delete x unseen)
     | otherwise         = reverse currentCycle : recurse (minimum unseen) [] unseen
 
-fromCycleStructure c = map findValue [1..n] where
-  n = maximum $ concat c
-  findValue = recurse c where
-    recurse (c':cs') i
-      | i `elem` c' = case dropWhile (/= i) c' of [_]     -> head c'
-                                                  (_:a:_) -> a
-      | otherwise = recurse cs' i
+inPosition2 :: a -> [a] -> [a]
+inPosition2 a [] = error "There's no second place for an Set.empty list!"
+inPosition2 a (a1:as) = a1:a:as
 
-countKCycles :: Int -> [[a]] -> Int
-countKCycles k cycleStructure = length $ filter ((==k) . length) cycleStructure
+right :: Int -> CycleStructure -> CycleStructure
+right k [c1]            =  [init c1, [last c1]]
+right k ([a11]:c2:cs)   =  inPosition2 a11 c2 : cs
+right k (c1:c2:cs)
+  | last c1 < head c2   = init c1 : [last c1] : c2 : cs
+  | length c2 == k      = init c1 : right k (inPosition2 (last c1) c2 : cs)
+  | length c2 == k - 1  = init c1 : left  k (inPosition2 (last c1) c2 : cs)
+  | otherwise           = init c1 :         (inPosition2 (last c1) c2 : cs)
 
-rescale :: Int -> CycleStructure -> CycleStructure
-rescale k = map rescale' where
-  rescale' = map (\i -> if i >=k then i + 1 else i)
+left :: Int -> CycleStructure -> CycleStructure
+left k [cycle] = [cycle] -- This is the state that fails to preserve k-cycles.
+left k (c1:[c21]:cs) = (c1 ++ [c21]):cs
+left k (c1:c2@(a21:a22:a2s):cs)
+  | length c2 == k     = (c1 ++ [a22]) : left  k ((a21:a2s) : cs)
+  | length c2 == k + 1 = (c1 ++ [a22]) : right k ((a21:a2s) : cs)
+  | otherwise          = (c1 ++ [a22]) :          (a21:a2s) : cs
 
-insertIntoCycle k (a:as) = a:k:as
+phi' :: Int -> Int -> CycleStructure -> CycleStructure
+phi' k i [] = [[i]]
+phi' k i pi@(c1@(a11:_):cs)
+  | i < a11            = [i] : pi
+  | length c1 == k     = right k $ inPosition2 i c1 : cs
+  | length c1 == k - 1 = left k $ inPosition2 i c1 : cs
+  | otherwise          = inPosition2 i c1 : cs
 
-phi :: Int -> Int -> CycleStructure -> CycleStructure
--- phi k n cycleStructure = phi' k n $ rescale n cycleStructure
+psi' :: Int -> CycleStructure -> (Int, CycleStructure)
+psi' k ([a11]:cs) = (a11, cs)
+psi' k (c1@(a11:a12:as):cs)
+  | length c1 == k     = (a12, left k $ (a11:as):cs)
+  | length c1 == k + 1 = (a12, right k $ (a11:as):cs)
+  | otherwise          = (a12, (a11:as):cs)
 
--- phi' :: Int -> Int -> CycleStructure -> CycleStructure
--- phi' k x []                    = [[x]]
--- phi' k x [[a]]                 = if x < a then [[x], [a]] else [[a,x]] -- This only gets hit for permutations in S_{2n + 1}
--- phi' k x p@([a]:[b]:cs)        = if x < a then [x]:p else [a, x, b]  : cs
--- phi' k x p@([a]:[b1,b2]:cs)    = if x < a then [x]:p else [a, x, b2] : cascade b1 cs
--- phi' k x p@([a]:[b1,b2,b3]:cs) = if x < a then [x]:p else [a, x, b2] : [b1] : phi' b3 cs
--- phi' k x p@([a]:(b1:b2:bs):cs) = if x < a then [x]:p else [a, x, b2] : (b1:bs):cs
--- phi' k x p@([a,b]:cs)          = if x < a then [x]:p else [a, x] : phi' b cs
--- phi' k x p@(p'@(a:_):ps')      = if x < a then [x]:p else insertIntoCycle x p' : ps'
-
--- cascade :: Int -> CycleStructure -> CycleStructure
--- cascade x []                    = [[x]]
--- cascade x ([a]:cycles)          = [a, x]: cycles
--- cascade x ([a1, a2]:cycles)     = [x, a2] : cascade a1 cycles
--- cascade x ([a1, a2, a3]:cycles) = [x, a2] : [a1] : phi' a3 cycles
--- cascade x ((a1:a2:as):cycles)   = [x, a2] : (a1:as) : cycles
-
--- mismatched n = filter (\(a, b, phiAB) -> countTwoCycles b /= countTwoCycles phiAB) $ applyToAll n
-
--- applyToAll n = [(a, fromWord b, phi a $ fromWord b) | a <- [1..n+1], b <- permutations [1..n]]
+adjust :: Int -> CycleStructure -> CycleStructure
+adjust i = map (map incrementTheBigBoys) where
+  incrementTheBigBoys x = if x >= i then x + 1 else x
